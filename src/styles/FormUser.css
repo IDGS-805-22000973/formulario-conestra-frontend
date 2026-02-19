@@ -1,0 +1,258 @@
+/* ============================================
+   CONTENEDOR DEL FORMULARIO
+============================================ */
+.form-user-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.form-user-container:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   HEADER DEL FORMULARIO
+============================================ */
+.form-user-header {
+    background: linear-gradient(135deg, #27266A 0%, #4E4DD5 100%);
+    padding: 1.25rem 1.5rem;
+}
+
+.form-user-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* ============================================
+   BODY DEL FORMULARIO
+============================================ */
+.form-user-body {
+    padding: 1.5rem;
+}
+
+/* ============================================
+   GRUPOS DE CAMPOS
+============================================ */
+.form-user-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-user-label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #27266A;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-user-label i {
+    color: #4E4DD5;
+}
+
+/* ============================================
+   INPUTS Y SELECTS
+============================================ */
+.form-user-input,
+.form-user-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.form-user-input:focus,
+.form-user-select:focus {
+    outline: none;
+    border-color: #4E4DD5;
+    box-shadow: 0 0 0 3px rgba(78, 77, 213, 0.1);
+}
+
+.form-user-input::placeholder {
+    color: #999;
+}
+
+/* Estados de validación */
+.form-user-input.is-valid,
+.form-user-select.is-valid {
+    border-color: #28a745;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+}
+
+.form-user-input.is-invalid,
+.form-user-select.is-invalid {
+    border-color: #dc3545;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+}
+
+/* ============================================
+   MENSAJES DE ERROR Y HINT
+============================================ */
+.form-user-error {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    display: flex;
+    align-items: center;
+    animation: slideDown 0.3s ease;
+}
+
+.form-user-hint {
+    color: #6c757d;
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   ALERTA GENERAL
+============================================ */
+.form-user-alert {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    animation: slideDown 0.3s ease;
+}
+
+/* ============================================
+   BOTONES DE ACCIÓN
+============================================ */
+.form-user-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-form-submit {
+    flex: 1;
+    background: linear-gradient(135deg, #27266A 0%, #4E4DD5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-form-submit:hover {
+    background: linear-gradient(135deg, #1f1e54 0%, #3d3cb8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(78, 77, 213, 0.3);
+}
+
+.btn-form-submit:active {
+    transform: translateY(0);
+}
+
+.btn-form-cancel {
+    flex: 1;
+    background: #fff;
+    color: #6c757d;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-form-cancel:hover {
+    background: #f8f9fa;
+    border-color: #adb5bd;
+    color: #495057;
+    transform: translateY(-2px);
+}
+
+.btn-form-cancel:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 576px) {
+    .form-user-body {
+        padding: 1rem;
+    }
+
+    .form-user-header {
+        padding: 1rem;
+    }
+
+    .form-user-title {
+        font-size: 1rem;
+    }
+
+    .form-user-actions {
+        flex-direction: column;
+    }
+
+    .btn-form-submit,
+    .btn-form-cancel {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   ANIMACIÓN DE ENTRADA
+============================================ */
+.form-user-container {
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

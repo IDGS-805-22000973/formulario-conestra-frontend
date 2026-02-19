@@ -1,0 +1,336 @@
+/* ==========================
+   ESTILOS CSS
+========================== */
+
+/* Contenedor principal */
+.contenedor {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f6fb;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 320px;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.titulo-sidebar {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.usuario-card {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.nombre-usuario {
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0;
+}
+
+.correo-usuario {
+    font-size: 12px;
+    margin: 4px 0;
+    color: #555;
+}
+
+.detalle-usuario {
+    font-size: 12px;
+    margin: 0;
+    color: #666;
+}
+
+/* Contenido principal */
+.contenido {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.titulo-principal {
+    font-size: 22px;
+    margin: 0;
+}
+
+.subtitulo {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #555;
+}
+
+/* Botones */
+.boton-descarga {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    background: #16a34a;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    width: fit-content;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Panel de resultados */
+.panel-resultados {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Cards */
+.card-grande {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.card-interna {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #f9fafc;
+}
+
+.vacio {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Títulos de secciones */
+.titulo-seccion {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.titulo-seccion-card {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+}
+
+.subtitulo-seccion {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #111;
+}
+
+/* Moss (Sectores) */
+.moss-container {
+    margin-top: 20px;
+}
+
+.moss-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.moss-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.moss-titulo {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.moss-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.moss-label {
+    font-weight: bold;
+    color: #374151;
+}
+
+.moss-value {
+    color: #111827;
+}
+
+/* Total box */
+.total-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f3f4f6;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.total-label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.total-valor {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+/* Grid de resumen */
+.grid-resumen {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.resumen-item {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9fafc;
+}
+
+.resumen-label {
+    margin: 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.resumen-valor {
+    margin: 5px 0 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Grid de barras */
+.grid-barras {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+}
+
+.barra-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #f9fafc;
+}
+
+.barra-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.barra-titulo {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.barra-valor {
+    font-size: 13px;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+.barra-fondo {
+    height: 10px;
+    border-radius: 10px;
+    background-color: #e5e7eb;
+    overflow: hidden;
+}
+
+.barra-progreso {
+    height: 100%;
+    border-radius: 10px;
+    background-color: #2563eb;
+}
+
+/* Grid de respuestas */
+.respuestas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.respuesta-item {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f9fafc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.respuesta-pregunta {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.respuesta-valor {
+    font-weight: bold;
+    font-size: 12px;
+    color: #2563eb;
+}
+
+/* Preformato */
+.pre-formato {
+    background-color: #111827;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    overflow-x: auto;
+}

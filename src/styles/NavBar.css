@@ -1,0 +1,203 @@
+/* ============================================
+   NAVBAR CON DEGRADADO - COLORES DEL LOGO
+============================================ */
+.navbar-custom {
+    background: linear-gradient(90deg, #27266A 0%, #3B3A9E 50%, #4E4DD5 100%);
+    padding: 1rem 0;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   LOGO
+============================================ */
+.navbar-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   ENLACES DE NAVEGACIÓN
+============================================ */
+.nav-link-custom {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem !important;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-link-custom:hover {
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+.nav-link-custom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: width 0.3s ease;
+}
+
+.nav-link-custom:hover::after {
+    width: 70%;
+}
+
+.nav-link-custom.active {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.nav-link-custom.active::after {
+    width: 70%;
+}
+
+/* ============================================
+   INFORMACIÓN DE USUARIO
+============================================ */
+.navbar-user-info {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-user-info .badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   BOTÓN DE CERRAR SESIÓN
+============================================ */
+.btn-logout {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-logout:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   NAVBAR TOGGLER (MÓVIL)
+============================================ */
+.navbar-custom .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+    padding: 0.5rem;
+}
+
+.navbar-custom .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.2);
+}
+
+.navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 991px) {
+    .navbar-custom {
+        padding: 0.75rem 0;
+    }
+
+    .navbar-logo {
+        height: 35px;
+    }
+
+    .nav-link-custom {
+        padding: 0.75rem 1rem !important;
+        border-left: 3px solid transparent;
+    }
+
+    .nav-link-custom:hover,
+    .nav-link-custom.active {
+        border-left-color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link-custom::after {
+        display: none;
+    }
+
+    .navbar-user-info {
+        margin: 0.5rem 0;
+        justify-content: center;
+    }
+
+    .btn-logout {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav.ms-auto {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-user-info {
+        font-size: 0.85rem;
+    }
+
+    .navbar-user-info .badge {
+        font-size: 0.65rem;
+    }
+}
+
+/* ============================================
+   ANIMACIONES SUAVES
+============================================ */
+.navbar-custom {
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

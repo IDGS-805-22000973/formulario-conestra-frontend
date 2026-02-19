@@ -1,0 +1,39 @@
+/* ============================================
+   HEADER SIMPLE
+============================================ */
+.page-header-simple {
+    margin-bottom: 2rem;
+}
+
+.page-header-simple h2 {
+    color: #27266A;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ============================================
+   FILTROS SIMPLES
+============================================ */
+.filters-simple {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.filters-simple .form-label {
+    font-weight: 600;
+    color: #27266A;
+    margin-bottom: 0.5rem;
+}
+
+.filters-simple .form-select {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.6rem;
+}
+
+.filters-simple .form-select:focus {
+    border-color: #4E4DD5;
+    box-shadow: 0 0 0 0.2rem rgba(78, 77, 213, 0.1);
+}

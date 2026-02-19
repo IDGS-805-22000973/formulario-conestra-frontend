@@ -1,0 +1,355 @@
+/* ============================================
+   CONTENEDOR DE LA LISTA
+============================================ */
+.list-user-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    animation: fadeInUp 0.5s ease;
+}
+
+.list-user-container:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   HEADER DE LA LISTA
+============================================ */
+.list-user-header {
+    background: linear-gradient(135deg, #27266A 0%, #4E4DD5 100%);
+    padding: 1.25rem 1.5rem;
+}
+
+.list-user-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.badge-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-left: auto;
+    font-weight: 700;
+}
+
+/* ============================================
+   BODY DE LA LISTA
+============================================ */
+.list-user-body {
+    padding: 1.5rem;
+}
+
+/* ============================================
+   ESTADO VACÍO
+============================================ */
+.list-user-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6c757d;
+}
+
+.list-user-empty i {
+    font-size: 4rem;
+    color: #dee2e6;
+    margin-bottom: 1rem;
+}
+
+.list-user-empty p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* ============================================
+   TABLA
+============================================ */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table-user {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+    margin-top: -0.5rem;
+}
+
+.table-user thead tr {
+    background: #f8f9fa;
+}
+
+.table-user thead th {
+    padding: 1rem;
+    font-weight: 600;
+    color: #27266A;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    white-space: nowrap;
+}
+
+.table-user thead th:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+.table-user thead th:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+/* ============================================
+   FILAS DE LA TABLA
+============================================ */
+.table-user-row {
+    background: #fff;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.table-user-row:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-color: #4E4DD5;
+}
+
+.table-user-row td {
+    padding: 1rem;
+    vertical-align: middle;
+    border: none;
+    border-top: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.table-user-row td:first-child {
+    border-left: 1px solid #e9ecef;
+    border-radius: 10px 0 0 10px;
+}
+
+.table-user-row td:last-child {
+    border-right: 1px solid #e9ecef;
+    border-radius: 0 10px 10px 0;
+}
+
+/* ============================================
+   CELDAS ESPECÍFICAS
+============================================ */
+.user-id {
+    font-weight: 700;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #27266A;
+    display: flex;
+    align-items: center;
+}
+
+.user-name i {
+    color: #4E4DD5;
+}
+
+.user-email {
+    color: #6c757d;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.user-email i {
+    color: #4E4DD5;
+}
+
+.user-age {
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.user-gender {
+    display: inline-flex;
+    align-items: center;
+    color: #495057;
+    font-weight: 500;
+}
+
+.user-gender i {
+    color: #4E4DD5;
+}
+
+/* ============================================
+   BADGES DE ROL
+============================================ */
+.badge-role {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-admin {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: #fff;
+}
+
+.badge-user {
+    background: linear-gradient(135deg, #27266A 0%, #4E4DD5 100%);
+    color: #fff;
+}
+
+/* ============================================
+   BADGES DE ESTADO
+============================================ */
+.badge-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-active {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+    color: #fff;
+}
+
+.badge-deleted {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: #fff;
+}
+
+/* ============================================
+   BOTONES DE ACCIÓN
+============================================ */
+.user-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-restore {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+    color: #fff;
+}
+
+.btn-restore:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-action:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 992px) {
+    .table-user {
+        font-size: 0.9rem;
+    }
+
+    .table-user thead th,
+    .table-user-row td {
+        padding: 0.75rem;
+    }
+
+    .btn-action {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .btn-action i {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .list-user-body {
+        padding: 1rem;
+    }
+
+    .list-user-header {
+        padding: 1rem;
+    }
+
+    .list-user-title {
+        font-size: 1rem;
+    }
+
+    /* Ocultar columnas menos importantes en móvil */
+    .table-user thead th:nth-child(1),
+    .table-user-row td:nth-child(1),
+    .table-user thead th:nth-child(4),
+    .table-user-row td:nth-child(4),
+    .table-user thead th:nth-child(5),
+    .table-user-row td:nth-child(5) {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .user-name i,
+    .user-email i {
+        display: none;
+    }
+
+    .badge-role,
+    .badge-status {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
