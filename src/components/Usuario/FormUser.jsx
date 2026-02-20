@@ -5,11 +5,14 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmarPassword, setConfirmarPassword] = useState("");
   const [edad, setEdad] = useState("");
   const [sexo, setSexo] = useState("M");
   const [role, setRole] = useState("user");
 
-  // Estados para errores
+  const [mostrarPassword, setMostrarPassword] = useState(false);
+  const [mostrarConfirmarPassword, setMostrarConfirmarPassword] = useState(false);
+
   const [errores, setErrores] = useState({});
   const [touched, setTouched] = useState({});
 
@@ -21,12 +24,12 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
       setSexo(usuarioEditar.sexo || "M");
       setRole(usuarioEditar.role || "user");
       setPassword("");
+      setConfirmarPassword("");
       setErrores({});
       setTouched({});
     }
   }, [usuarioEditar]);
 
-  // Funciones de validación
   const validarNombre = (valor) => {
     if (!valor.trim()) return "El nombre es obligatorio";
     if (valor.trim().length < 3) return "El nombre debe tener al menos 3 caracteres";
@@ -47,6 +50,12 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
     return "";
   };
 
+  const validarConfirmarPassword = (valor) => {
+    if (!usuarioEditar && !valor.trim()) return "Confirma la contraseña";
+    if (password.trim() && valor !== password) return "Las contraseñas no coinciden";
+    return "";
+  };
+
   const validarEdad = (valor) => {
     if (!valor) return "La edad es obligatoria";
     const edadNum = Number(valor);
@@ -61,18 +70,17 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
     return "";
   };
 
-  // Validar todos los campos
   const validarFormulario = () => {
     const nuevosErrores = {
       nombre: validarNombre(nombre),
       correo: validarCorreo(correo),
       password: validarPassword(password),
+      confirmarPassword: validarConfirmarPassword(confirmarPassword),
       edad: validarEdad(edad),
       sexo: validarSexo(sexo),
     };
 
-    // Eliminar errores vacíos
-    Object.keys(nuevosErrores).forEach(key => {
+    Object.keys(nuevosErrores).forEach((key) => {
       if (nuevosErrores[key] === "") delete nuevosErrores[key];
     });
 
@@ -80,7 +88,6 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
     return Object.keys(nuevosErrores).length === 0;
   };
 
-  // Manejar blur de campos
   const handleBlur = (campo) => {
     setTouched({ ...touched, [campo]: true });
 
@@ -95,6 +102,9 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
       case "password":
         error = validarPassword(password);
         break;
+      case "confirmarPassword":
+        error = validarConfirmarPassword(confirmarPassword);
+        break;
       case "edad":
         error = validarEdad(edad);
         break;
@@ -105,28 +115,23 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
         return;
     }
 
-    setErrores({
-      ...errores,
-      [campo]: error
-    });
+    setErrores({ ...errores, [campo]: error });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Marcar todos los campos como tocados
     const todosTouched = {
       nombre: true,
       correo: true,
       password: true,
+      confirmarPassword: true,
       edad: true,
       sexo: true,
     };
     setTouched(todosTouched);
 
-    if (!validarFormulario()) {
-      return;
-    }
+    if (!validarFormulario()) return;
 
     const usuarioEnviar = {
       id: usuarioEditar?.id,
@@ -137,17 +142,16 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
       role,
     };
 
-    // solo incluir password si viene escrita
     if (password.trim()) {
       usuarioEnviar.password = password;
     }
 
     onSubmit(usuarioEnviar);
 
-    // limpiar formulario
     setNombre("");
     setCorreo("");
     setPassword("");
+    setConfirmarPassword("");
     setEdad("");
     setSexo("M");
     setRole("user");
@@ -160,6 +164,7 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
     setTouched({});
     onCancel();
   };
+
 
   return (
     <div className="form-user-container">
@@ -222,30 +227,84 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
           )}
         </div>
 
+        {/* Password */}
         <div className="form-user-group">
           <label className="form-user-label">
             <i className="bi bi-lock me-2"></i>
             Contraseña {usuarioEditar ? "(opcional)" : <span className="text-danger">*</span>}
           </label>
-          <input
-            type="password"
-            className={`form-user-input ${touched.password && errores.password ? 'is-invalid' : touched.password && !errores.password && password ? 'is-valid' : ''}`}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onBlur={() => handleBlur('password')}
-            placeholder="••••••••"
-          />
+
+          <div className="input-password-wrapper">
+            <input
+              type={mostrarPassword ? "text" : "password"}
+              className={`form-user-input ${touched.password && errores.password
+                ? "is-invalid"
+                : touched.password && !errores.password && password
+                  ? "is-valid"
+                  : ""
+                }`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onBlur={() => handleBlur("password")}
+              placeholder="••••••••"
+            />
+
+            <button
+              type="button"
+              className="btn-toggle-password"
+              onClick={() => setMostrarPassword(!mostrarPassword)}
+            >
+              <i className={`bi ${mostrarPassword ? "bi-eye-slash" : "bi-eye"}`}></i>
+            </button>
+          </div>
+
           {touched.password && errores.password && (
-            <div className="form-user-error">
-              <i className="bi bi-exclamation-circle me-1"></i>
-              {errores.password}
-            </div>
+            <div className="form-user-error">{errores.password}</div>
           )}
-          {usuarioEditar && (
-            <small className="form-user-hint">
-              <i className="bi bi-info-circle me-1"></i>
-              Deja en blanco si no deseas cambiar la contraseña
-            </small>
+        </div>
+
+        {/* Confirmar Password */}
+        <div className="form-user-group">
+          <label className="form-user-label">
+            <i className="bi bi-lock-fill me-2"></i>
+            Confirmar contraseña {!usuarioEditar && <span className="text-danger">*</span>}
+          </label>
+
+          <div className="input-password-wrapper">
+            <input
+              type={mostrarConfirmarPassword ? "text" : "password"}
+              className={`form-user-input ${touched.confirmarPassword && errores.confirmarPassword
+                ? "is-invalid"
+                : touched.confirmarPassword &&
+                  !errores.confirmarPassword &&
+                  confirmarPassword
+                  ? "is-valid"
+                  : ""
+                }`}
+              value={confirmarPassword}
+              onChange={(e) => setConfirmarPassword(e.target.value)}
+              onBlur={() => handleBlur("confirmarPassword")}
+              placeholder="••••••••"
+            />
+
+            <button
+              type="button"
+              className="btn-toggle-password"
+              onClick={() =>
+                setMostrarConfirmarPassword(!mostrarConfirmarPassword)
+              }
+            >
+              <i
+                className={`bi ${mostrarConfirmarPassword ? "bi-eye-slash" : "bi-eye"
+                  }`}
+              ></i>
+            </button>
+          </div>
+
+          {touched.confirmarPassword && errores.confirmarPassword && (
+            <div className="form-user-error">
+              {errores.confirmarPassword}
+            </div>
           )}
         </div>
 

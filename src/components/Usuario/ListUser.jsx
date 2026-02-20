@@ -1,19 +1,43 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import "../../styles/ListUser.css";
 
 const ListUser = ({ users, onDelete, onRestore }) => {
+  const [textoBusqueda, setTextoBusqueda] = useState("");
+
+  // Filtrar usuarios por nombre
+  const usuariosFiltrados = useMemo(() => {
+    return users.filter((usuario) =>
+      usuario.nombre
+        .toLowerCase()
+        .includes(textoBusqueda.toLowerCase())
+    );
+  }, [users, textoBusqueda]);
+
   return (
     <div className="list-user-container">
       <div className="list-user-header">
         <h5 className="list-user-title">
           <i className="bi bi-people-fill me-2"></i>
           Lista de Usuarios
-          <span className="badge badge-count">{users.length}</span>
+          <span className="badge badge-count">
+            {usuariosFiltrados.length}
+          </span>
         </h5>
+        <br />
+        {/* Input de búsqueda */}
+        <div className="list-user-search">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Buscar por nombre..."
+            value={textoBusqueda}
+            onChange={(e) => setTextoBusqueda(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="list-user-body">
-        {users.length === 0 ? (
+        {usuariosFiltrados.length === 0 ? (
           <div className="list-user-empty">
             <i className="bi bi-inbox"></i>
             <p>No hay usuarios para mostrar</p>
@@ -34,7 +58,7 @@ const ListUser = ({ users, onDelete, onRestore }) => {
               </thead>
 
               <tbody>
-                {users.map((u) => (
+                {usuariosFiltrados.map((u) => (
                   <tr key={u.id} className="table-user-row">
                     <td>
                       <div className="user-name">
@@ -53,14 +77,31 @@ const ListUser = ({ users, onDelete, onRestore }) => {
                     </td>
                     <td>
                       <span className="user-gender">
-                        <i className={`bi ${u.sexo === 'M' ? 'bi-gender-male' : 'bi-gender-female'} me-1`}></i>
-                        {u.sexo === 'M' ? 'M' : 'F'}
+                        <i
+                          className={`bi ${u.sexo === "M"
+                              ? "bi-gender-male"
+                              : "bi-gender-female"
+                            } me-1`}
+                        ></i>
+                        {u.sexo === "M" ? "M" : "F"}
                       </span>
                     </td>
                     <td>
-                      <span className={`badge-role ${u.role === "admin" ? "badge-admin" : "badge-user"}`}>
-                        <i className={`bi ${u.role === "admin" ? 'bi-shield-fill-check' : 'bi-person'} me-1`}></i>
-                        {u.role === "admin" ? "Admin" : "Usuario"}
+                      <span
+                        className={`badge-role ${u.role === "admin"
+                            ? "badge-admin"
+                            : "badge-user"
+                          }`}
+                      >
+                        <i
+                          className={`bi ${u.role === "admin"
+                              ? "bi-shield-fill-check"
+                              : "bi-person"
+                            } me-1`}
+                        ></i>
+                        {u.role === "admin"
+                          ? "Admin"
+                          : "Usuario"}
                       </span>
                     </td>
                     <td>
