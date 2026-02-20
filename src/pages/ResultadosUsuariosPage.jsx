@@ -544,11 +544,6 @@ const estilos = {
     boxShadow: "0 4px 10px rgba(0,0,0,0.06)",
   },
 
-  tituloSeccion: {
-    margin: "0 0 15px 0",
-    fontSize: "16px",
-  },
-
   subtituloSeccion: {
     fontSize: "14px",
     marginBottom: "10px",
