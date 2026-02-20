@@ -90,27 +90,73 @@
    BOTÓN DE CERRAR SESIÓN
 ============================================ */
 .btn-logout {
-    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: linear-gradient(135deg, #e53e3e, #c0392b);
     color: #fff;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
-    padding: 0.5rem 1.5rem;
-    font-weight: 600;
-    font-size: 0.9rem;
+    border: none;
+    border-radius: 50px;
+    padding: 0.45rem 1.4rem;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.04em;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(197, 48, 48, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-logout::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #fc5c5c, #e53e3e);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
 }
 
 .btn-logout:hover {
-    background: rgba(255, 255, 255, 0.25);
     color: #fff;
-    border-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 25px rgba(197, 48, 48, 0.65),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.btn-logout:hover::before {
+    opacity: 1;
+}
+
+.btn-logout:hover i {
+    transform: translateX(4px);
+}
+
+.btn-logout i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-logout span,
+.btn-logout {
+    position: relative;
+    z-index: 1;
 }
 
 .btn-logout:active {
     transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(197, 48, 48, 0.5);
+}
+
+@media (max-width: 991px) {
+    .btn-logout {
+        width: 100%;
+        margin-top: 0.5rem;
+        justify-content: center;
+    }
 }
 
 /* ============================================

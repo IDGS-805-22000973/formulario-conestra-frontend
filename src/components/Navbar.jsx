@@ -71,11 +71,11 @@ const Navbar = () => {
               </span>
             </li>
 
-            <li className="nav-item">
-              <button className="btn btn-logout" onClick={handleLogout}>
-                Cerrar sesión
-              </button>
-            </li>
+            <button className="btn btn-logout" onClick={handleLogout}>
+              <i className="bi bi-box-arrow-right"></i>
+              <span>Cerrar sesión</span>
+            </button>
+
           </ul>
         </div>
       </div>
