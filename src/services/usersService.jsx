@@ -9,6 +9,16 @@ export const getAllUsers = async () => {
     }
 };
 
+export const getOneUser = async (id) => {
+    try {
+        const response = await api.get(`/users/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { message: "Error al obtener el usuario" };
+    }
+};
+
+
 export const getDeletedUsers = async () => {
     try {
         const response = await api.get("/users/deleted");
@@ -42,5 +52,14 @@ export const restoreUser = async (id) => {
         return response.data;
     } catch (error) {
         throw error.response?.data || { message: "Error al restaurar el usuario" };
+    }
+};
+
+export const updateUser = async (id, userData) => {
+    try {
+        const response = await api.patch(`/users/${id}`, userData);
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { message: "Error al actualizar el usuario" };
     }
 };

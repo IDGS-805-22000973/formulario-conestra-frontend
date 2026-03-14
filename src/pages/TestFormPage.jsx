@@ -3,12 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { submitTestService } from "../services/testService";
 import { MOSS_QUESTIONS } from "../helpers/questionsData";
 import { PF16_QUESTIONS } from "../helpers/pf16Data";
-
 import {
     guardarProgresoTest,
     obtenerProgresoTest,
     limpiarProgresoTest,
 } from "../utils/testStorage";
+import "../styles/TestFormPage.css";  // ← ajusta la ruta si es necesario
+
+// Letras para los marcadores de opción (A, B, C, D…)
+const LETTERS = ["A", "B", "C", "D", "E", "F"];
 
 const TestFormPage = () => {
     const { testType } = useParams();
@@ -20,251 +23,273 @@ const TestFormPage = () => {
     const [answers, setAnswers] = useState({});
     const [currentPage, setCurrentPage] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [offline, setOffline] = useState(!navigator.onLine);
+    const [modalConfirm, setModalConfirm] = useState({ show: false, type: "" });
+    const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
     const questionsPerPage = 10;
 
-    const [offline, setOffline] = useState(!navigator.onLine);
-
-    // Estados para modales y toasts
-    const [modalConfirm, setModalConfirm] = useState({ show: false, type: '' });
-    const [toast, setToast] = useState({ show: false, message: '', type: '' });
-
+    /* ── Listeners online/offline ── */
     useEffect(() => {
-        const online = () => setOffline(false);
-        const offline = () => setOffline(true);
-
-        window.addEventListener("online", online);
-        window.addEventListener("offline", offline);
-
+        const goOnline = () => setOffline(false);
+        const goOffline = () => setOffline(true);
+        window.addEventListener("online", goOnline);
+        window.addEventListener("offline", goOffline);
         return () => {
-            window.removeEventListener("online", online);
-            window.removeEventListener("offline", offline);
+            window.removeEventListener("online", goOnline);
+            window.removeEventListener("offline", goOffline);
         };
     }, []);
 
-    // Cargar preguntas
+    /* ── Cargar preguntas ── */
     useEffect(() => {
-        if (tipo === "MOSS") {
-            setQuestions(MOSS_QUESTIONS);
-        } else if (tipo === "16PF") {
-            setQuestions(PF16_QUESTIONS);
-        }
+        if (tipo === "MOSS") setQuestions(MOSS_QUESTIONS);
+        if (tipo === "16PF") setQuestions(PF16_QUESTIONS);
     }, [tipo]);
 
-    // Cargar progreso guardado al iniciar
+    /* ── Recuperar progreso guardado ── */
     useEffect(() => {
         const progreso = obtenerProgresoTest(tipo);
-
         if (progreso) {
             setAnswers(progreso.answers || {});
             setCurrentPage(progreso.currentPage || 0);
         }
     }, [tipo]);
 
-    // Guardar progreso cada vez que cambie answers o currentPage
+    /* ── Guardar progreso automáticamente ── */
     useEffect(() => {
         if (questions.length > 0) {
             guardarProgresoTest(tipo, answers, currentPage);
         }
     }, [answers, currentPage, tipo, questions.length]);
 
-    const showToast = (message, type = 'success') => {
+    /* ── Toast ── */
+    const showToast = (message, type = "success") => {
         setToast({ show: true, message, type });
-        setTimeout(() => setToast({ show: false, message: '', type: '' }), 3000);
+        setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
     };
 
+    /* ── Handlers ── */
     const handleOptionChange = (qId, optId) => {
         setAnswers((prev) => ({ ...prev, [`q${qId}`]: optId }));
     };
 
-    const totalPages = Math.ceil(questions.length / questionsPerPage);
-
-    const currentQuestions = questions.slice(
-        currentPage * questionsPerPage,
-        (currentPage + 1) * questionsPerPage
-    );
-
     const handleSubmit = async () => {
         if (Object.keys(answers).length < questions.length) {
             showToast(
-                `Por favor, responde todas las preguntas (${Object.keys(answers).length}/${questions.length})`,
-                'warning'
+                `Responde todas las preguntas (${Object.keys(answers).length}/${questions.length})`,
+                "warning"
             );
             return;
         }
-
         setLoading(true);
-
         try {
             await submitTestService(tipo, answers);
-
-            showToast('Test enviado con éxito', 'success');
-
-            //BORRAR PROGRESO GUARDADO
+            showToast("Test enviado con éxito", "success");
             limpiarProgresoTest(tipo);
-
-            // Navegar después de un pequeño delay para que se vea el toast
-            setTimeout(() => {
-                navigate("/formularios");
-            }, 1500);
+            setTimeout(() => navigate("/formularios"), 1500);
         } catch (err) {
-            showToast(err.message || 'Error al enviar el test', 'error');
+            showToast(err.message || "Error al enviar el test", "error");
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleLimpiar = () => {
-        setModalConfirm({ show: true, type: 'clear' });
     };
 
     const confirmClear = () => {
         limpiarProgresoTest(tipo);
         setAnswers({});
         setCurrentPage(0);
-        setModalConfirm({ show: false, type: '' });
-        showToast('Avance borrado correctamente', 'success');
+        setModalConfirm({ show: false, type: "" });
+        showToast("Avance borrado correctamente", "success");
     };
 
+    /* ── Paginación ── */
+    const totalPages = Math.ceil(questions.length / questionsPerPage);
+    const currentQuestions = questions.slice(
+        currentPage * questionsPerPage,
+        (currentPage + 1) * questionsPerPage
+    );
+    const answeredCount = Object.keys(answers).length;
+    const progressPct = questions.length > 0
+        ? (answeredCount / questions.length) * 100
+        : 0;
+    const globalOffset = currentPage * questionsPerPage;
+
+    /* ════════════════════════════════ RENDER ════════════════════════════════ */
     return (
         <div className="container mt-4 mb-5">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2>{tipo}</h2>
-                <span className="badge bg-secondary">
+
+            {/* ── ENCABEZADO ── */}
+            <div className="tfp-header">
+                <div className="tfp-header-left">
+                    <span className="tfp-badge">Evaluación psicométrica</span>
+                    <h2 className="tfp-title">{tipo}</h2>
+                </div>
+                <span className="tfp-page-badge">
                     Página {currentPage + 1} de {totalPages}
                 </span>
             </div>
 
-            <div className="progress mb-4" style={{ height: "10px" }}>
-                <div
-                    className="progress-bar bg-success"
-                    style={{
-                        width: `${(Object.keys(answers).length / questions.length) * 100}%`,
-                    }}
-                />
+            {/* ── PROGRESO ── */}
+            <div className="tfp-prog-wrap" role="progressbar" aria-valuenow={answeredCount} aria-valuemax={questions.length}>
+                <div className="tfp-prog-bar" style={{ width: `${progressPct}%` }} />
             </div>
+            <span className="tfp-prog-label">
+                {answeredCount} de {questions.length} respondidas
+            </span>
 
+            {/* ── ALERTA OFFLINE ── */}
             {offline && (
-                <div className="alert alert-warning">
-                    Estás sin conexión. Tus respuestas se guardarán automáticamente.
+                <div className="tfp-offline">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01" />
+                    </svg>
+                    Sin conexión. Tus respuestas se guardan automáticamente.
                 </div>
             )}
 
-            <div className="d-flex justify-content-end mb-3">
-                <button className="btn btn-outline-danger btn-sm" onClick={handleLimpiar}>
+            {/* ── BOTÓN BORRAR AVANCE ── */}
+            <div className="tfp-clear-row">
+                <button
+                    className="tfp-btn-clear"
+                    onClick={() => setModalConfirm({ show: true, type: "clear" })}
+                >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4h6v2" />
+                    </svg>
                     Borrar avance guardado
                 </button>
             </div>
 
-            <div className="card shadow-sm p-4 mb-4">
-                {currentQuestions.map((q) => (
-                    <div key={q.id} className="mb-4 border-bottom pb-3">
-                        <p className="fw-bold">{q.question}</p>
+            {/* ── TARJETA DE PREGUNTAS ── */}
+            <div className="tfp-questions-card">
+                {currentQuestions.map((q, idx) => (
+                    <div key={q.id} className="tfp-question-item">
+                        <span className="tfp-question-number">
+                            Pregunta {globalOffset + idx + 1}
+                        </span>
+                        <p className="tfp-question-text">{q.question}</p>
 
-                        <div className="d-flex gap-3 flex-wrap">
-                            {q.options.map((opt) => (
-                                <div className="form-check" key={opt.id}>
+                        <div className="tfp-options">
+                            {q.options.map((opt, oi) => (
+                                <label
+                                    key={opt.id}
+                                    className={`tfp-opt ${answers[`q${q.id}`] === opt.id ? "tfp-opt--on" : ""}`}
+                                >
                                     <input
-                                        className="form-check-input"
                                         type="radio"
                                         name={`q${q.id}`}
+                                        value={opt.id}
                                         checked={answers[`q${q.id}`] === opt.id}
                                         onChange={() => handleOptionChange(q.id, opt.id)}
+                                        className="tfp-opt-radio"
                                     />
-                                    <label className="form-check-label">{opt.text}</label>
-                                </div>
+                                    <span className="tfp-opt-marker">
+                                        {LETTERS[oi] ?? oi + 1}
+                                    </span>
+                                    <span className="tfp-opt-text">{opt.text}</span>
+                                </label>
                             ))}
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className="d-flex justify-content-between">
+            {/* ── NAVEGACIÓN ── */}
+            <div className="tfp-nav">
                 <button
-                    className="btn btn-outline-primary"
+                    className="tfp-btn-prev"
                     disabled={currentPage === 0}
-                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                    onClick={() => setCurrentPage((p) => p - 1)}
                 >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6" />
+                    </svg>
                     Anterior
                 </button>
 
                 {currentPage === totalPages - 1 ? (
                     <button
-                        className="btn btn-success px-5"
+                        className="tfp-btn-finish"
                         onClick={handleSubmit}
                         disabled={loading}
                     >
-                        {loading ? "Enviando..." : "Finalizar Test"}
+                        {loading ? (
+                            <>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: "spin 1s linear infinite" }}>
+                                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                                </svg>
+                                Enviando…
+                            </>
+                        ) : (
+                            <>
+                                Finalizar Test
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            </>
+                        )}
                     </button>
                 ) : (
                     <button
-                        className="btn btn-primary px-5"
-                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                        className="tfp-btn-next"
+                        onClick={() => setCurrentPage((p) => p + 1)}
                     >
                         Siguiente
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
                     </button>
                 )}
             </div>
 
-            {/* MODAL DE CONFIRMACIÓN */}
+            {/* ════════ MODAL CONFIRMACIÓN ════════ */}
             {modalConfirm.show && (
-                <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Confirmar Acción</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={() => setModalConfirm({ show: false, type: '' })}
-                                ></button>
-                            </div>
-                            <div className="modal-body">
-                                <p>
-                                    ¿Estás seguro de que deseas borrar todo el avance guardado?
-                                    Esta acción no se puede deshacer.
-                                </p>
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => setModalConfirm({ show: false, type: '' })}
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={confirmClear}
-                                >
-                                    Borrar Avance
-                                </button>
-                            </div>
+                <div className="tfp-modal-overlay">
+                    <div className="tfp-modal-card">
+                        <div className="tfp-modal-header">
+                            <h5 className="tfp-modal-title">Borrar avance guardado</h5>
+                            <button
+                                className="tfp-modal-close"
+                                onClick={() => setModalConfirm({ show: false, type: "" })}
+                                aria-label="Cerrar"
+                            >✕</button>
+                        </div>
+                        <div className="tfp-modal-body">
+                            ¿Estás seguro de que deseas borrar todo el avance guardado?
+                            Tus respuestas actuales se perderán y no se puede deshacer.
+                        </div>
+                        <div className="tfp-modal-footer">
+                            <button
+                                className="tfp-modal-btn-cancel"
+                                onClick={() => setModalConfirm({ show: false, type: "" })}
+                            >
+                                Cancelar
+                            </button>
+                            <button className="tfp-modal-btn-danger" onClick={confirmClear}>
+                                Sí, borrar avance
+                            </button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* TOAST DE NOTIFICACIÓN */}
+            {/* ════════ TOAST ════════ */}
             {toast.show && (
-                <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 11 }}>
-                    <div className={`toast show align-items-center text-white border-0 ${toast.type === 'success' ? 'bg-success' :
-                            toast.type === 'warning' ? 'bg-warning' : 'bg-danger'
-                        }`}>
-                        <div className="d-flex">
-                            <div className="toast-body">
-                                {toast.message}
-                            </div>
-                            <button
-                                type="button"
-                                className="btn-close btn-close-white me-2 m-auto"
-                                onClick={() => setToast({ show: false, message: '', type: '' })}
-                            ></button>
-                        </div>
+                <div className="tfp-toast-wrap">
+                    <div className={`tfp-toast tfp-toast--${toast.type}`}>
+                        <span>{toast.message}</span>
+                        <button
+                            className="tfp-toast-close"
+                            onClick={() => setToast({ show: false, message: "", type: "" })}
+                            aria-label="Cerrar"
+                        >✕</button>
                     </div>
                 </div>
             )}
+
+            {/* Spin para el botón de carga */}
+            <style>{`@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }`}</style>
         </div>
     );
 };

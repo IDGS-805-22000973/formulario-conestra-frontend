@@ -1,0 +1,511 @@
+/* ═══════════════════════════════════════════════
+   TestFormPage.css
+   Diseño coherente con TutorialModal
+   ═══════════════════════════════════════════════ */
+
+/* ── Encabezado de página ── */
+.tfp-header {
+    background: linear-gradient(135deg, #1a56db 0%, #0e3fa5 100%);
+    border-radius: 16px;
+    padding: 1.4rem 1.75rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 24px rgba(26, 86, 219, 0.28);
+}
+
+.tfp-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.tfp-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: .2rem .6rem;
+    border-radius: 999px;
+    width: fit-content;
+}
+
+.tfp-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.tfp-page-badge {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 600;
+    padding: .35rem .85rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Barra de progreso ── */
+.tfp-prog-wrap {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.tfp-prog-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #38bdf8, #1a56db);
+    border-radius: 999px;
+    transition: width .55s cubic-bezier(.22, 1, .36, 1);
+}
+
+.tfp-prog-label {
+    font-size: .78rem;
+    color: #6c757d;
+    text-align: right;
+    margin-bottom: 1.25rem;
+    display: block;
+}
+
+/* ── Alerta offline ── */
+.tfp-offline {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    background: #fff8e1;
+    border: 1px solid #ffc107;
+    border-left: 4px solid #ffc107;
+    border-radius: 10px;
+    padding: .65rem 1rem;
+    font-size: .85rem;
+    color: #856404;
+    margin-bottom: 1rem;
+}
+
+/* ── Botón borrar avance ── */
+.tfp-clear-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: .85rem;
+}
+
+.tfp-btn-clear {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .4rem .9rem;
+    border: 1.5px solid #dc3545;
+    border-radius: 8px;
+    background: transparent;
+    color: #dc3545;
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+}
+
+.tfp-btn-clear:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+/* ── Tarjeta de preguntas ── */
+.tfp-questions-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, .07);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Ítem de pregunta ── */
+.tfp-question-item {
+    padding-bottom: 1.4rem;
+    margin-bottom: 1.4rem;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.tfp-question-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.tfp-question-number {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #1a56db;
+    margin-bottom: .3rem;
+}
+
+.tfp-question-text {
+    font-size: .975rem;
+    font-weight: 600;
+    color: #212529;
+    margin: 0 0 .85rem;
+    line-height: 1.55;
+}
+
+/* ── Opciones (misma estética que TutorialModal) ── */
+.tfp-options {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.tfp-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    padding: .6rem .9rem;
+    border: 2px solid #dee2e6;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color .18s, background .18s, transform .14s;
+    user-select: none;
+}
+
+.tfp-opt:hover {
+    border-color: #1a56db;
+    background: #f0f5ff;
+    transform: translateX(3px);
+}
+
+.tfp-opt--on {
+    border-color: #1a56db;
+    background: #eef3ff;
+}
+
+.tfp-opt-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tfp-opt-marker {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f1f3f5;
+    border: 2px solid #ced4da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .68rem;
+    font-weight: 700;
+    color: #495057;
+    transition: background .18s, border-color .18s, color .18s;
+    margin-top: 1px;
+}
+
+.tfp-opt--on .tfp-opt-marker {
+    background: #1a56db;
+    border-color: #1a56db;
+    color: #fff;
+}
+
+.tfp-opt-text {
+    font-size: .875rem;
+    color: #343a40;
+    line-height: 1.5;
+    padding-top: 2px;
+}
+
+/* ── Navegación inferior ── */
+.tfp-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tfp-btn-prev {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .6rem 1.3rem;
+    border: 2px solid #1a56db;
+    border-radius: 10px;
+    background: transparent;
+    color: #1a56db;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .18s, color .18s;
+}
+
+.tfp-btn-prev:hover:not(:disabled) {
+    background: #1a56db;
+    color: #fff;
+}
+
+.tfp-btn-prev:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.tfp-btn-next {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .6rem 1.8rem;
+    border: none;
+    border-radius: 10px;
+    background: #1a56db;
+    color: #fff;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(26, 86, 219, .3);
+    transition: background .18s, transform .15s, box-shadow .18s;
+}
+
+.tfp-btn-next:hover {
+    background: #1446b5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(26, 86, 219, .4);
+}
+
+.tfp-btn-next:active {
+    transform: translateY(0);
+}
+
+.tfp-btn-finish {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .6rem 2rem;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: #fff;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, .3);
+    transition: opacity .18s, transform .15s, box-shadow .18s;
+}
+
+.tfp-btn-finish:hover:not(:disabled) {
+    opacity: .92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(22, 163, 74, .4);
+}
+
+.tfp-btn-finish:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+}
+
+/* ── Modal de confirmación ── */
+.tfp-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1060;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(8, 18, 40, .72);
+    backdrop-filter: blur(5px);
+    animation: tfpFadeIn .25s ease both;
+}
+
+@keyframes tfpFadeIn {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+.tfp-modal-card {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+    animation: tfpSlideUp .3s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes tfpSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.tfp-modal-header {
+    background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+}
+
+.tfp-modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.tfp-modal-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, .8);
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: color .15s;
+}
+
+.tfp-modal-close:hover {
+    color: #fff;
+}
+
+.tfp-modal-body {
+    padding: 1.4rem 1.5rem;
+    font-size: .9rem;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.tfp-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: .75rem;
+    padding: .9rem 1.5rem 1.25rem;
+    border-top: 1px solid #f1f3f5;
+}
+
+.tfp-modal-btn-cancel {
+    padding: .5rem 1.2rem;
+    border: 1.5px solid #ced4da;
+    border-radius: 8px;
+    background: transparent;
+    color: #6c757d;
+    font-size: .875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.tfp-modal-btn-cancel:hover {
+    background: #f8f9fa;
+    color: #343a40;
+}
+
+.tfp-modal-btn-danger {
+    padding: .5rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background: #dc3545;
+    color: #fff;
+    font-size: .875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, transform .12s;
+}
+
+.tfp-modal-btn-danger:hover {
+    background: #b02a37;
+    transform: translateY(-1px);
+}
+
+/* ── Toast ── */
+.tfp-toast-wrap {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 1070;
+    animation: tfpFadeIn .25s ease both;
+}
+
+.tfp-toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding: .75rem 1.1rem;
+    border-radius: 12px;
+    min-width: 260px;
+    max-width: 380px;
+    font-size: .875rem;
+    font-weight: 500;
+    color: #fff;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+}
+
+.tfp-toast--success {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.tfp-toast--warning {
+    background: linear-gradient(135deg, #d97706, #b45309);
+}
+
+.tfp-toast--error {
+    background: linear-gradient(135deg, #dc3545, #b02a37);
+}
+
+.tfp-toast-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, .8);
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: color .15s;
+}
+
+.tfp-toast-close:hover {
+    color: #fff;
+}
+
+/* ── Mobile ── */
+@media (max-width: 576px) {
+    .tfp-header {
+        padding: 1rem 1.1rem;
+        border-radius: 12px;
+    }
+
+    .tfp-title {
+        font-size: 1.2rem;
+    }
+
+    .tfp-questions-card {
+        padding: 1.1rem;
+    }
+
+    .tfp-btn-prev,
+    .tfp-btn-next,
+    .tfp-btn-finish {
+        font-size: .82rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

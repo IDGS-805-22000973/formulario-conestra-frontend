@@ -1,11 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import {
     getAllUsers,
     getDeletedUsers,
     deleteUser,
     createUser,
     restoreUser,
+    updateUser,
 } from "../services/usersService";
+import { AuthContext } from "../context/AuthContext";
 
 import FormUser from "../components/Usuario/FormUser";
 import ListUser from "../components/Usuario/ListUser";
@@ -13,6 +15,8 @@ import Navbar from "../components/Navbar";
 import "../styles/UserManagementPage.css";
 
 const UserManagementPage = () => {
+    const { user } = useContext(AuthContext);
+    const currentUserId = user?.sub || user?.id || null;
     const [usuariosActivos, setUsuariosActivos] = useState([]);
     const [usuariosEliminados, setUsuariosEliminados] = useState([]);
 
@@ -98,11 +102,19 @@ const UserManagementPage = () => {
 
     const handleSubmitUser = async (nuevoUsuario) => {
         try {
-            await createUser(nuevoUsuario);
-            showToast('Usuario creado correctamente', 'success');
+            if (nuevoUsuario.id) {
+                // Modo edición
+                const { id, ...datos } = nuevoUsuario;
+                await updateUser(id, datos);
+                showToast('Usuario actualizado correctamente', 'success');
+                setUsuarioEditar(null);
+            } else {
+                await createUser(nuevoUsuario);
+                showToast('Usuario creado correctamente', 'success');
+            }
             loadUsers();
         } catch (err) {
-            showToast(err.message || 'Error al crear usuario', 'error');
+            showToast(err.message || 'Error al procesar usuario', 'error');
         }
     };
 
@@ -172,6 +184,7 @@ const UserManagementPage = () => {
                             users={usuariosCombinados}
                             onDelete={handleDelete}
                             onRestore={handleRestore}
+                            currentUserId={currentUserId}
                         />
                     </div>
 

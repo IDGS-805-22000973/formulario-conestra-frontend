@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import "../../styles/ListUser.css";
 
-const ListUser = ({ users, onDelete, onRestore }) => {
+const ListUser = ({ users, onDelete, onRestore, currentUserId }) => {
   const [textoBusqueda, setTextoBusqueda] = useState("");
 
   // Filtrar usuarios por nombre
@@ -120,14 +120,21 @@ const ListUser = ({ users, onDelete, onRestore }) => {
                     <td>
                       <div className="user-actions">
                         {!u.deletedAt ? (
-                          <button
-                            className="btn-action btn-delete"
-                            onClick={() => onDelete(u.id)}
-                            title="Eliminar usuario"
-                          >
-                            <i className="bi bi-trash"></i>
-                            Eliminar
-                          </button>
+                          u.id === currentUserId ? (
+                            <span className="badge bg-secondary" title="No puedes eliminar tu propia cuenta">
+                              <i className="bi bi-shield-lock me-1"></i>
+                              Tu cuenta
+                            </span>
+                          ) : (
+                            <button
+                              className="btn-action btn-delete"
+                              onClick={() => onDelete(u.id)}
+                              title="Eliminar usuario"
+                            >
+                              <i className="bi bi-trash"></i>
+                              Eliminar
+                            </button>
+                          )
                         ) : (
                           <button
                             className="btn-action btn-restore"
