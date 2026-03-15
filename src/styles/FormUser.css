@@ -1,220 +1,274 @@
-/* ============================================
-   CONTENEDOR DEL FORMULARIO
-============================================ */
+/* ═══════════════════════════════════════════════
+   FormUser.css
+   ═══════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 .form-user-container {
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(15, 33, 84, .09);
     overflow: hidden;
-    transition: box-shadow 0.3s ease;
+    animation: fuFadeUp .4s cubic-bezier(.22, 1, .36, 1) both;
 }
 
-.form-user-container:hover {
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+@keyframes fuFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
 }
 
-/* ============================================
-   HEADER DEL FORMULARIO
-============================================ */
+/* Header */
 .form-user-header {
-    background: linear-gradient(135deg, #27266A 0%, #4E4DD5 100%);
-    padding: 1.25rem 1.5rem;
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(135deg, #0f2154 0%, #2563eb 100%);
+}
+
+.form-user-header--edit {
+    background: linear-gradient(135deg, #0f2154 0%, #1d4ed8 100%);
 }
 
 .form-user-title {
     color: #fff;
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
     margin: 0;
     display: flex;
     align-items: center;
+    gap: .5rem;
 }
 
-/* ============================================
-   BODY DEL FORMULARIO
-============================================ */
+/* Body */
 .form-user-body {
-    padding: 1.5rem;
+    padding: 1.4rem 1.5rem 1.5rem;
 }
 
-/* ============================================
-   GRUPOS DE CAMPOS
-============================================ */
+/* Grupos */
 .form-user-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.1rem;
 }
 
 .form-user-label {
     display: flex;
     align-items: center;
-    font-weight: 600;
-    color: #27266A;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    gap: .4rem;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #475569;
+    margin-bottom: .4rem;
 }
 
-.form-user-label i {
-    color: #4E4DD5;
+.form-user-label svg {
+    color: #2563eb;
+    flex-shrink: 0;
 }
 
-/* ============================================
-   INPUTS Y SELECTS
-============================================ */
+/* Inputs */
 .form-user-input,
 .form-user-select {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    background: #fff;
+    height: 44px;
+    padding: 0 .9rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: .875rem;
+    color: #1e293b;
+    font-weight: 500;
+    outline: none;
+    transition: border-color .18s, background .18s, box-shadow .18s;
+    -webkit-appearance: none;
+}
+
+.form-user-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
 }
 
 .form-user-input:focus,
 .form-user-select:focus {
-    outline: none;
-    border-color: #4E4DD5;
-    box-shadow: 0 0 0 3px rgba(78, 77, 213, 0.1);
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
 }
 
-.form-user-input::placeholder {
-    color: #999;
+.form-user-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    padding-right: 2.2rem;
+    cursor: pointer;
 }
 
-/* Estados de validación */
-.form-user-input.is-valid,
+.form-user-input.is-valid {
+    border-color: #16a34a;
+    background: #f0fdf4;
+}
+
+.form-user-input.is-invalid {
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
 .form-user-select.is-valid {
-    border-color: #28a745;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1rem;
-    padding-right: 2.5rem;
+    border-color: #16a34a;
 }
 
-.form-user-input.is-invalid,
 .form-user-select.is-invalid {
-    border-color: #dc3545;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1rem;
-    padding-right: 2.5rem;
+    border-color: #ef4444;
 }
 
-/* ============================================
-   MENSAJES DE ERROR Y HINT
-============================================ */
-.form-user-error {
-    color: #dc3545;
-    font-size: 0.85rem;
-    margin-top: 0.4rem;
+/* Password wrapper */
+.input-password-wrapper {
+    position: relative;
+}
+
+.input-password-wrapper .form-user-input {
+    padding-right: 2.75rem;
+}
+
+.btn-toggle-password {
+    position: absolute;
+    right: .75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
     display: flex;
     align-items: center;
-    animation: slideDown 0.3s ease;
+    padding: .2rem;
+    border-radius: 4px;
+    transition: color .15s;
+}
+
+.btn-toggle-password:hover {
+    color: #2563eb;
+}
+
+/* Mensajes */
+.form-user-error {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .775rem;
+    color: #ef4444;
+    margin-top: .35rem;
+    font-weight: 500;
+    animation: fuSlideDown .2s ease both;
 }
 
 .form-user-hint {
-    color: #6c757d;
-    font-size: 0.8rem;
-    margin-top: 0.4rem;
+    font-size: .75rem;
+    color: #94a3b8;
+    margin-top: .3rem;
     display: block;
 }
 
-@keyframes slideDown {
+@keyframes fuSlideDown {
     from {
         opacity: 0;
-        transform: translateY(-5px);
+        transform: translateY(-4px)
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0)
     }
 }
 
-/* ============================================
-   ALERTA GENERAL
-============================================ */
+/* Alerta global */
 .form-user-alert {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    color: #fff;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    font-size: 0.9rem;
-    animation: slideDown 0.3s ease;
+    gap: .55rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-left: 3px solid #ef4444;
+    border-radius: 8px;
+    padding: .65rem .9rem;
+    margin-bottom: 1rem;
+    font-size: .835rem;
+    color: #b91c1c;
+    font-weight: 500;
+    animation: fuSlideDown .2s ease both;
 }
 
-/* ============================================
-   BOTONES DE ACCIÓN
-============================================ */
+/* Botones */
 .form-user-actions {
     display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
+    gap: .65rem;
+    margin-top: 1.25rem;
     flex-wrap: wrap;
 }
 
 .btn-form-submit {
     flex: 1;
-    background: linear-gradient(135deg, #27266A 0%, #4E4DD5 100%);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: flex;
+    height: 44px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    gap: .4rem;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #0f2154, #2563eb);
+    color: #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: .875rem;
+    font-weight: 700;
     cursor: pointer;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, .28);
+    transition: transform .15s, box-shadow .18s, opacity .18s;
 }
 
 .btn-form-submit:hover {
-    background: linear-gradient(135deg, #1f1e54 0%, #3d3cb8 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(78, 77, 213, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, .38);
 }
 
 .btn-form-submit:active {
     transform: translateY(0);
 }
 
+.btn-form-submit:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
 .btn-form-cancel {
     flex: 1;
-    background: #fff;
-    color: #6c757d;
-    border: 2px solid #dee2e6;
-    border-radius: 10px;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: flex;
+    height: 44px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    gap: .4rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #475569;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: .875rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
 }
 
 .btn-form-cancel:hover {
-    background: #f8f9fa;
-    border-color: #adb5bd;
-    color: #495057;
-    transform: translateY(-2px);
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #1e293b;
 }
 
-.btn-form-cancel:active {
-    transform: translateY(0);
-}
-
-/* ============================================
-   RESPONSIVE
-============================================ */
 @media (max-width: 576px) {
     .form-user-body {
         padding: 1rem;
@@ -222,10 +276,6 @@
 
     .form-user-header {
         padding: 1rem;
-    }
-
-    .form-user-title {
-        font-size: 1rem;
     }
 
     .form-user-actions {
@@ -236,37 +286,4 @@
     .btn-form-cancel {
         width: 100%;
     }
-}
-
-/* ============================================
-   ANIMACIÓN DE ENTRADA
-============================================ */
-.form-user-container {
-    animation: fadeInUp 0.5s ease;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.input-password-wrapper {
-    position: relative;
-}
-
-.btn-toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
 }

@@ -1,229 +1,576 @@
-/* ============================================
-   FONDO CON DEGRADADO ANIMADO - AZULES
-============================================ */
-.login-container {
+/* =====================================================
+   Login.css — Diseño profesional corporativo refinado
+   Paleta: Navy #0f2154 · Azul #2563eb · Blanco · Slate
+   Tipografía: Plus Jakarta Sans + DM Serif Display
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  --ln-navy: #0f2154;
+  --ln-navy-mid: #1a3570;
+  --ln-blue: #2563eb;
+  --ln-blue-lt: #3b82f6;
+  --ln-blue-pale: #eff6ff;
+  --ln-white: #ffffff;
+  --ln-gray-50: #f8fafc;
+  --ln-gray-100: #f1f5f9;
+  --ln-gray-200: #e2e8f0;
+  --ln-gray-400: #94a3b8;
+  --ln-gray-600: #475569;
+  --ln-gray-800: #1e293b;
+  --ln-accent: #f59e0b;
+  --ln-error: #ef4444;
+  --ln-radius: 14px;
+  --ln-font: 'Plus Jakarta Sans', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ══════════════════════════════════════════
+   LAYOUT PRINCIPAL
+══════════════════════════════════════════ */
+.ln-root {
+  display: flex;
   min-height: 100vh;
+  font-family: var(--ln-font);
+  background: var(--ln-navy);
+}
+
+/* ══════════════════════════════════════════
+   PANEL IZQUIERDO — Hero / Branding
+══════════════════════════════════════════ */
+.ln-panel-left {
+  position: relative;
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem 3.5rem 2.5rem;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--ln-navy) 0%, var(--ln-navy-mid) 60%, #1d4ed8 100%);
+}
+
+.ln-geo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   overflow: hidden;
 }
 
-.login-gradient-bg {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
-  background-size: 200% 200%;
-  animation: gradientShift 15s ease infinite;
-  position: relative;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* ============================================
-   SECCIÓN DE INFORMACIÓN (IZQUIERDA)
-============================================ */
-.login-info-section {
-  padding: 2rem;
-  animation: fadeInLeft 1s ease-out;
-}
-
-.login-info-section h1 {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  line-height: 1.2;
-}
-
-.login-info-section p {
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ============================================
-   ELEMENTOS DECORATIVOS
-============================================ */
-.login-decorative-elements {
-  position: relative;
-  margin-top: 3rem;
-  height: 200px;
-}
-
-.floating-card {
+.ln-geo::before {
+  content: '';
   position: absolute;
-  width: 120px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: float 6s ease-in-out infinite;
+  width: 580px;
+  height: 580px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .06);
+  top: -180px;
+  right: -160px;
 }
 
-.floating-card:nth-child(2) {
-  left: 100px;
-  top: 50px;
-  width: 100px;
-  height: 100px;
+.ln-geo::after {
+  content: '';
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .08);
+  bottom: -100px;
+  left: -80px;
 }
 
-.floating-card:nth-child(3) {
-  left: 250px;
-  top: 20px;
-  width: 90px;
-  height: 60px;
+.ln-geo-ring {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 40px solid rgba(37, 99, 235, .18);
+  top: 50%;
+  right: -60px;
+  transform: translateY(-50%);
 }
 
-.floating-card.delay-1 {
-  animation-delay: 2s;
+.ln-geo-dot-grid {
+  position: absolute;
+  bottom: 3rem;
+  left: 3.5rem;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
 }
 
-.floating-card.delay-2 {
-  animation-delay: 4s;
+.ln-geo-dot-grid span {
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .2);
 }
 
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-20px) rotate(5deg);
-  }
+/* ── Logo panel izquierdo ──
+   FIX: se elimina filter brightness/invert que podía
+   invisibilizar logos con fondo transparente o claro.
+   El logo se muestra sobre fondo oscuro con drop-shadow
+   para garantizar contraste en cualquier caso.
+─────────────────────────────────────────────────── */
+.ln-left-logo {
+  position: relative;
+  z-index: 1;
 }
 
-/* ============================================
-   TARJETA DE LOGIN (DERECHA)
-============================================ */
-.login-form-wrapper {
-  animation: fadeInRight 1s ease-out;
+.ln-left-logo img {
+  max-width: 150px;
+  height: auto;
+  /* drop-shadow blanco para que logos oscuros/de color
+       sean visibles sobre el fondo navy oscuro          */
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, .25));
+  opacity: .95;
 }
 
-@keyframes fadeInRight {
+.ln-left-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.ln-tagline-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-bottom: 1.4rem;
+}
+
+.ln-eyebrow-line {
+  width: 32px;
+  height: 2px;
+  background: var(--ln-accent);
+  border-radius: 999px;
+}
+
+.ln-eyebrow-text {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ln-accent);
+}
+
+.ln-headline {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 3.2vw, 2.9rem);
+  font-weight: 400;
+  color: var(--ln-white);
+  line-height: 1.2;
+  margin-bottom: 1.4rem;
+}
+
+.ln-headline em {
+  font-style: italic;
+  color: #93c5fd;
+}
+
+.ln-subheadline {
+  font-size: .925rem;
+  color: rgba(255, 255, 255, .65);
+  line-height: 1.7;
+  max-width: 400px;
+  font-weight: 400;
+}
+
+.ln-stats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.ln-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.ln-stat-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--ln-white);
+  line-height: 1;
+}
+
+.ln-stat-label {
+  font-size: .72rem;
+  color: rgba(255, 255, 255, .5);
+  letter-spacing: .04em;
+}
+
+/* ══════════════════════════════════════════
+   PANEL DERECHO — Formulario
+══════════════════════════════════════════ */
+.ln-panel-right {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ln-white);
+  padding: 2.5rem 2rem;
+  position: relative;
+}
+
+.ln-panel-right::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(0, 0, 0, .06);
+}
+
+.ln-form-box {
+  width: 100%;
+  max-width: 400px;
+  animation: lnFadeUp .5s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes lnFadeUp {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateY(22px)
   }
 
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0)
   }
 }
 
-.login-card {
-  border: none;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-  max-width: 500px;
-  margin: 0 auto;
+/* ── Cabecera del form ──
+   FIX: .ln-form-logo ahora siempre visible en el panel derecho.
+   En desktop (≥1025px) muestra el logo encima del título.
+   En tablet/móvil el panel izquierdo desaparece y el logo
+   aquí es el único punto de branding visible.
+─────────────────────────────────────────────────── */
+.ln-form-header {
+  margin-bottom: 2rem;
 }
 
-.login-logo {
-  max-width: 180px;
+.ln-form-logo {
+  display: block;
+  /* siempre visible */
+  max-width: 130px;
   height: auto;
+  margin-bottom: 1.5rem;
   object-fit: contain;
 }
 
-/* ============================================
-   ESTILOS DEL FORMULARIO
-============================================ */
-.login-card .form-control {
-  border: 2px solid #e0e0e0;
+.ln-form-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--ln-gray-800);
+  line-height: 1.2;
+  margin-bottom: .4rem;
+}
+
+.ln-form-subtitle {
+  font-size: .875rem;
+  color: var(--ln-gray-400);
+  font-weight: 400;
+}
+
+/* ── Alerta de error ── */
+.ln-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 3px solid var(--ln-error);
   border-radius: 10px;
-  padding: 0.75rem 1rem;
-  transition: all 0.3s ease;
+  padding: .75rem 1rem;
+  margin-bottom: 1.5rem;
+  animation: lnFadeUp .25s ease both;
 }
 
-.login-card .form-control:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
+.ln-alert-icon {
+  flex-shrink: 0;
+  color: var(--ln-error);
+  margin-top: 1px;
 }
 
-.login-btn {
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+.ln-alert-text {
+  flex: 1;
+  font-size: .855rem;
+  color: #b91c1c;
+  line-height: 1.45;
+}
+
+.ln-alert-close {
+  background: none;
   border: none;
-  border-radius: 10px;
-  padding: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #fca5a5;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color .15s;
+  padding: 0;
 }
 
-.login-btn:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+.ln-alert-close:hover {
+  color: var(--ln-error);
+}
+
+/* ── Campos ── */
+.ln-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ln-field {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+.ln-label {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--ln-gray-600);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.ln-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ln-input-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--ln-gray-400);
+  pointer-events: none;
+  transition: color .2s;
+  display: flex;
+  align-items: center;
+}
+
+.ln-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 3rem 0 2.85rem;
+  border: 1.5px solid var(--ln-gray-200);
+  border-radius: var(--ln-radius);
+  background: var(--ln-gray-50);
+  font-family: var(--ln-font);
+  font-size: .925rem;
+  color: var(--ln-gray-800);
+  font-weight: 500;
+  outline: none;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+  -webkit-appearance: none;
+}
+
+.ln-input::placeholder {
+  color: var(--ln-gray-400);
+  font-weight: 400;
+}
+
+.ln-input:focus {
+  border-color: var(--ln-blue);
+  background: var(--ln-white);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, .1);
+}
+
+.ln-input-wrap:focus-within .ln-input-icon {
+  color: var(--ln-blue);
+}
+
+.ln-eye-btn {
+  position: absolute;
+  right: .85rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ln-gray-400);
+  display: flex;
+  align-items: center;
+  padding: .25rem;
+  border-radius: 6px;
+  transition: color .15s, background .15s;
+}
+
+.ln-eye-btn:hover {
+  color: var(--ln-blue);
+  background: var(--ln-blue-pale);
+}
+
+/* ── Botón de submit ── */
+.ln-submit-btn {
+  margin-top: .75rem;
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  border: none;
+  border-radius: var(--ln-radius);
+  background: linear-gradient(135deg, var(--ln-navy) 0%, var(--ln-blue) 100%);
+  color: var(--ln-white);
+  font-family: var(--ln-font);
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, .35);
+  transition: opacity .2s, transform .15s, box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.ln-submit-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.ln-submit-btn:hover:not(:disabled)::before {
+  opacity: 1;
+}
+
+.ln-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, .45);
 }
 
-.login-btn:active:not(:disabled) {
+.ln-submit-btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.login-btn:disabled {
-  opacity: 0.6;
+.ln-submit-btn:disabled {
+  opacity: .65;
   cursor: not-allowed;
 }
 
-/* ============================================
-   RESPONSIVE
-============================================ */
-@media (max-width: 991px) {
-  .login-gradient-bg {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  }
-
-  .login-card {
-    margin: 2rem 1rem;
-  }
+.ln-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, .3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: lnSpin .7s linear infinite;
+  flex-shrink: 0;
 }
 
-@media (max-width: 576px) {
-  .login-card .card-body {
-    padding: 2rem 1.5rem !important;
-  }
-
-  .login-logo {
-    max-width: 150px;
-  }
-}
-
-/* ============================================
-   ANIMACIÓN DE ALERTA
-============================================ */
-.alert {
-  animation: slideDown 0.3s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
+@keyframes lnSpin {
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: rotate(360deg)
+  }
+}
+
+/* ── Footer ── */
+.ln-form-footer {
+  margin-top: 2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--ln-gray-100);
+  text-align: center;
+}
+
+.ln-footer-text {
+  font-size: .78rem;
+  color: var(--ln-gray-400);
+  line-height: 1.6;
+}
+
+.ln-footer-brand {
+  font-weight: 700;
+  color: var(--ln-gray-600);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .ln-panel-left {
+    flex: 1 1 45%;
+    padding: 2.5rem 2.5rem 2rem;
+  }
+
+  .ln-panel-right {
+    max-width: 460px;
+  }
+
+  .ln-stats {
+    gap: 1.5rem;
+  }
+}
+
+/* En tablet vertical se oculta el panel izquierdo completo.
+   El logo del panel derecho ya es visible (display:block),
+   así la página nunca queda sin branding visual. */
+@media (max-width: 768px) {
+  .ln-root {
+    background: var(--ln-gray-50);
+  }
+
+  .ln-panel-left {
+    display: none;
+  }
+
+  .ln-panel-right {
+    max-width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    background: var(--ln-white);
+  }
+
+  .ln-panel-right::before {
+    display: none;
+  }
+
+  .ln-form-box {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .ln-panel-right {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .ln-form-title {
+    font-size: 1.5rem;
+  }
+
+  .ln-input {
+    height: 50px;
+    font-size: .9rem;
+  }
+
+  .ln-submit-btn {
+    height: 50px;
+    font-size: .9rem;
   }
 }

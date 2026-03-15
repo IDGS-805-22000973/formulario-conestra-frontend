@@ -5,6 +5,50 @@ import { loginService } from "../services/authService";
 import logo from "../assets/Logo2.png";
 import "../styles/Login.css";
 
+const IconMail = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+  </svg>
+);
+const IconLock = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+  </svg>
+);
+const IconEyeOff = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+    <line x1="1" y1="1" x2="23" y2="23" />
+  </svg>
+);
+const IconEye = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+const IconArrow = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14M12 5l7 7-7 7" />
+  </svg>
+);
+const IconAlert = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <line x1="12" y1="16" x2="12.01" y2="16" />
+  </svg>
+);
+
 const LoginPage = () => {
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
@@ -19,150 +63,172 @@ const LoginPage = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
     try {
       const data = await loginService(correo, password);
-
       login(data.access_token, data.user);
-
-      if (data.user.role === "admin") {
-        navigate("/admin/users");
-      } else {
-        navigate("/formularios");
-      }
-
+      navigate(data.user.role === "admin" ? "/admin/users" : "/formularios");
     } catch (err) {
-      setError(err.message || "Credenciales incorrectas");
+      setError(err.message || "Credenciales incorrectas. Verifica e intenta de nuevo.");
     } finally {
       setLoading(false);
     }
   };
 
+  const dots = Array.from({ length: 35 });
+
   return (
-    <div className="login-container">
-      <div className="login-gradient-bg">
-        <div className="container">
-          <div className="row min-vh-100 align-items-center">
-            {/* COLUMNA IZQUIERDA - INFORMACIÓN */}
-            <div className="col-lg-6 text-white d-none d-lg-block">
-              <div className="login-info-section">
-                <h1 className="display-4 fw-bold mb-4">
-                  Nuestra calidad<br />
-                  y servicio son tu<br />
-                  solución
-                </h1>
-                <p className="lead mb-4">
-                  Brindamos soluciones e innovación a través del talento específico
-                  para tu empresa con calidad y profesionalismo.
-                </p>
-                <div className="login-decorative-elements">
-                  <div className="floating-card"></div>
-                  <div className="floating-card delay-1"></div>
-                  <div className="floating-card delay-2"></div>
-                </div>
-              </div>
-            </div>
+    <main className="ln-root">
 
-            {/* COLUMNA DERECHA - FORMULARIO */}
-            <div className="col-lg-6">
-              <div className="login-form-wrapper">
-                <div className="card login-card shadow-lg">
-                  <div className="card-body p-5">
-                    {/* Logo */}
-                    <div className="text-center mb-4">
-                      <img
-                        src={logo}
-                        alt="Conestra Logo"
-                        className="login-logo mb-3"
-                      />
-                      <h2 className="fw-bold mb-2">Iniciar Sesión</h2>
-                      <p className="text-muted">Ingresa tus credenciales para continuar</p>
-                    </div>
-
-                    {error && (
-                      <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                        {error}
-                        <button
-                          type="button"
-                          className="btn-close"
-                          onClick={() => setError("")}
-                        ></button>
-                      </div>
-                    )}
-
-                    <form onSubmit={handleSubmit}>
-                      <div className="mb-4">
-                        <label className="form-label fw-semibold">Correo Electrónico</label>
-                        <input
-                          type="email"
-                          className="form-control form-control-lg"
-                          value={correo}
-                          onChange={(e) => setCorreo(e.target.value)}
-                          required
-                          placeholder="ejemplo@correo.com"
-                        />
-                      </div>
-
-                      <div className="mb-4">
-                        <label className="form-label fw-semibold">Contraseña</label>
-                        {/* ── único cambio: input-group con botón de ojo ── */}
-                        <div className="input-group">
-                          <input
-                            type={showPassword ? "text" : "password"}
-                            className="form-control form-control-lg"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            placeholder="••••••••"
-                          />
-                          <button
-                            type="button"
-                            className="btn btn-outline-secondary"
-                            style={{ borderRadius: "0 10px 10px 0", border: "2px solid #e0e0e0", borderLeft: "none" }}
-                            onClick={() => setShowPassword(!showPassword)}
-                            tabIndex={-1}
-                          >
-                            {showPassword ? (
-                              // Ojo cerrado
-                              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z" />
-                                <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829" />
-                                <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z" />
-                              </svg>
-                            ) : (
-                              // Ojo abierto
-                              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
-                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
-                              </svg>
-                            )}
-                          </button>
-                        </div>
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="btn btn-primary btn-lg w-100 login-btn"
-                        disabled={loading}
-                      >
-                        {loading ? (
-                          <>
-                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                            Cargando...
-                          </>
-                        ) : (
-                          "Ingresar"
-                        )}
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* ══════════ PANEL IZQUIERDO ══════════ */}
+      <section className="ln-panel-left" aria-hidden="true">
+        <div className="ln-geo" aria-hidden="true">
+          <div className="ln-geo-ring" />
+          <div className="ln-geo-dot-grid">
+            {dots.map((_, i) => <span key={i} />)}
           </div>
         </div>
-      </div>
-    </div>
+
+        {/* Logo izquierdo — sin filtro, se ve sobre el fondo oscuro */}
+        <div className="ln-left-logo">
+          <img src={logo} alt="Conestra" />
+        </div>
+
+        <div className="ln-left-body">
+          <div className="ln-tagline-eyebrow">
+            <span className="ln-eyebrow-line" />
+            <span className="ln-eyebrow-text">Plataforma de evaluación</span>
+          </div>
+          <h1 className="ln-headline">
+            Talento que impulsa <em>el crecimiento</em> de tu empresa
+          </h1>
+          <p className="ln-subheadline">
+            Brindamos soluciones e innovación a través del talento específico
+            para tu empresa con calidad y profesionalismo.
+          </p>
+        </div>
+
+        <div className="ln-stats">
+          <div className="ln-stat-item">
+            <span className="ln-stat-value">+500</span>
+            <span className="ln-stat-label">Evaluaciones realizadas</span>
+          </div>
+          <div className="ln-stat-item">
+            <span className="ln-stat-value">2</span>
+            <span className="ln-stat-label">Pruebas disponibles</span>
+          </div>
+          <div className="ln-stat-item">
+            <span className="ln-stat-value">100%</span>
+            <span className="ln-stat-label">Resultados confiables</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════ PANEL DERECHO ══════════ */}
+      <section className="ln-panel-right">
+        <div className="ln-form-box">
+
+          <header className="ln-form-header">
+            {/*
+                          Logo visible siempre en el panel derecho.
+                          En desktop se muestra encima del título.
+                          En tablet/móvil (cuando el panel izquierdo se oculta) también aparece.
+                          ── FIX: quitamos el style display:none ──
+                        */}
+            <img
+              src={logo}
+              alt="Conestra"
+              className="ln-form-logo"
+            />
+            <h2 className="ln-form-title">Bienvenido de nuevo</h2>
+            <p className="ln-form-subtitle">Ingresa tus credenciales para continuar</p>
+          </header>
+
+          {error && (
+            <div className="ln-alert" role="alert" aria-live="assertive">
+              <span className="ln-alert-icon"><IconAlert /></span>
+              <span className="ln-alert-text">{error}</span>
+              <button
+                className="ln-alert-close"
+                onClick={() => setError(null)}
+                aria-label="Cerrar mensaje de error"
+              >✕</button>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} noValidate>
+            <div className="ln-fields">
+
+              <div className="ln-field">
+                <label htmlFor="ln-email" className="ln-label">Correo electrónico</label>
+                <div className="ln-input-wrap">
+                  <span className="ln-input-icon"><IconMail /></span>
+                  <input
+                    id="ln-email"
+                    type="email"
+                    className="ln-input"
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                    placeholder="ejemplo@correo.com"
+                    autoComplete="email"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+
+              <div className="ln-field">
+                <label htmlFor="ln-password" className="ln-label">Contraseña</label>
+                <div className="ln-input-wrap">
+                  <span className="ln-input-icon"><IconLock /></span>
+                  <input
+                    id="ln-password"
+                    type={showPassword ? "text" : "password"}
+                    className="ln-input"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    required
+                    disabled={loading}
+                  />
+                  <button
+                    type="button"
+                    className="ln-eye-btn"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <IconEyeOff /> : <IconEye />}
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <button
+              type="submit"
+              className="ln-submit-btn"
+              disabled={loading}
+              aria-busy={loading}
+            >
+              {loading ? (
+                <><span className="ln-spinner" aria-hidden="true" />Verificando…</>
+              ) : (
+                <>Ingresar<IconArrow /></>
+              )}
+            </button>
+          </form>
+
+          <footer className="ln-form-footer">
+            <p className="ln-footer-text">
+              © {new Date().getFullYear()}&nbsp;
+              <span className="ln-footer-brand">Conestra</span>
+              &nbsp;· Todos los derechos reservados
+            </p>
+          </footer>
+        </div>
+      </section>
+    </main>
   );
 };
 

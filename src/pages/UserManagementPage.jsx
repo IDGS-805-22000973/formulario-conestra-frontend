@@ -8,44 +8,64 @@ import {
     updateUser,
 } from "../services/usersService";
 import { AuthContext } from "../context/AuthContext";
-
 import FormUser from "../components/Usuario/FormUser";
 import ListUser from "../components/Usuario/ListUser";
 import Navbar from "../components/Navbar";
 import "../styles/UserManagementPage.css";
 
+/* ── SVG icons ── */
+const IconAlert = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+);
+
+const IconTrashConfirm = () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+        <path d="M10 11v6M14 11v6M9 6V4h6v2" />
+    </svg>
+);
+
+const IconRestoreConfirm = () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+        <path d="M3 3v5h5" />
+    </svg>
+);
+
+/* ════════════════════════════════════════════
+   COMPONENTE PRINCIPAL
+════════════════════════════════════════════ */
 const UserManagementPage = () => {
     const { user } = useContext(AuthContext);
     const currentUserId = user?.sub || user?.id || null;
+
     const [usuariosActivos, setUsuariosActivos] = useState([]);
     const [usuariosEliminados, setUsuariosEliminados] = useState([]);
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const [usuarioEditar, setUsuarioEditar] = useState(null);
 
-    // filtros
+    /* Filtros */
     const [filtroEstado, setFiltroEstado] = useState("activos");
     const [filtroRol, setFiltroRol] = useState("todos");
 
-    // Estados para modales y toasts
-    const [modalConfirm, setModalConfirm] = useState({ show: false, type: '', userId: null });
-    const [toast, setToast] = useState({ show: false, message: '', type: '' });
+    /* Modal y toast */
+    const [modalConfirm, setModalConfirm] = useState({ show: false, type: "", userId: null });
+    const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
-    useEffect(() => {
-        loadUsers();
-    }, []);
-
+    /* ── Carga de usuarios ── */
     const loadUsers = async () => {
         try {
             setLoading(true);
-
-            const [activos, eliminados] = await Promise.all([
-                getAllUsers(),
-                getDeletedUsers(),
-            ]);
-
+            setError(null);
+            const [activos, eliminados] = await Promise.all([getAllUsers(), getDeletedUsers()]);
             setUsuariosActivos(activos);
             setUsuariosEliminados(eliminados);
         } catch (err) {
@@ -55,106 +75,133 @@ const UserManagementPage = () => {
         }
     };
 
+    useEffect(() => { loadUsers(); }, []);
+
+    /* ── Lista filtrada ── */
     const usuariosCombinados = useMemo(() => {
-        let lista = [];
+        let lista =
+            filtroEstado === "activos" ? usuariosActivos :
+                filtroEstado === "eliminados" ? usuariosEliminados :
+                    [...usuariosActivos, ...usuariosEliminados];
 
-        if (filtroEstado === "activos") lista = usuariosActivos;
-        if (filtroEstado === "eliminados") lista = usuariosEliminados;
-        if (filtroEstado === "todos") lista = [...usuariosActivos, ...usuariosEliminados];
-
-        if (filtroRol !== "todos") {
-            lista = lista.filter((u) => u.role === filtroRol);
-        }
-
+        if (filtroRol !== "todos") lista = lista.filter((u) => u.role === filtroRol);
         return lista;
     }, [usuariosActivos, usuariosEliminados, filtroEstado, filtroRol]);
 
-    const showToast = (message, type = 'success') => {
+    /* ── Toast helper ── */
+    const showToast = (message, type = "success") => {
         setToast({ show: true, message, type });
-        setTimeout(() => setToast({ show: false, message: '', type: '' }), 3000);
+        setTimeout(() => setToast({ show: false, message: "", type: "" }), 3000);
     };
 
-    const handleDelete = (id) => {
-        setModalConfirm({ show: true, type: 'delete', userId: id });
-    };
+    /* ── Handlers de acciones ── */
+    const handleDelete = (id) => setModalConfirm({ show: true, type: "delete", userId: id });
+    const handleRestore = (id) => setModalConfirm({ show: true, type: "restore", userId: id });
 
-    const handleRestore = (id) => {
-        setModalConfirm({ show: true, type: 'restore', userId: id });
-    };
+    const closeModal = () => setModalConfirm({ show: false, type: "", userId: null });
 
     const confirmAction = async () => {
         const { type, userId } = modalConfirm;
-        setModalConfirm({ show: false, type: '', userId: null });
-
+        closeModal();
         try {
-            if (type === 'delete') {
-                await deleteUser(userId);
-                showToast('Usuario eliminado con éxito', 'success');
-            } else if (type === 'restore') {
-                await restoreUser(userId);
-                showToast('Usuario restaurado correctamente', 'success');
-            }
+            if (type === "delete") { await deleteUser(userId); showToast("Usuario eliminado", "success"); }
+            if (type === "restore") { await restoreUser(userId); showToast("Usuario restaurado", "success"); }
             loadUsers();
         } catch (err) {
-            showToast(err.message || 'Error al procesar la acción', 'error');
+            showToast(err.message || "Error al procesar la acción", "error");
         }
     };
 
     const handleSubmitUser = async (nuevoUsuario) => {
         try {
             if (nuevoUsuario.id) {
-                // Modo edición
                 const { id, ...datos } = nuevoUsuario;
                 await updateUser(id, datos);
-                showToast('Usuario actualizado correctamente', 'success');
+                showToast("Usuario actualizado correctamente", "success");
                 setUsuarioEditar(null);
             } else {
                 await createUser(nuevoUsuario);
-                showToast('Usuario creado correctamente', 'success');
+                showToast("Usuario creado correctamente", "success");
             }
             loadUsers();
         } catch (err) {
-            showToast(err.message || 'Error al procesar usuario', 'error');
+            showToast(err.message || "Error al procesar usuario", "error");
         }
     };
 
+    /* ── Loading screen ── */
     if (loading) {
         return (
-            <>
+            <div className="um-page">
                 <Navbar />
-                <div className="container mt-5">
-                    <div className="text-center">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Cargando...</span>
-                        </div>
-                        <p className="mt-3">Cargando usuarios...</p>
-                    </div>
+                <div className="um-loading">
+                    <div className="um-loading-spinner" aria-hidden="true" />
+                    <p className="um-loading-text">Cargando usuarios…</p>
                 </div>
-            </>
+            </div>
         );
     }
 
+    /* ════════════════ RENDER ════════════════ */
     return (
-        <>
+        <div className="um-page">
             <Navbar />
 
-            <div className="container-fluid mt-4 px-4">
-                <div className="page-header-simple">
-                    <h2>Gestión de Usuarios</h2>
-                </div>
+            <div className="um-page-inner">
 
-                {error && <div className="alert alert-danger">{error}</div>}
+                {/* ── ENCABEZADO ── */}
+                <header className="um-page-header">
+                    <div className="um-page-header-left">
+                        <div className="um-page-eyebrow">
+                            <span className="um-page-eyebrow-line" />
+                            <span className="um-page-eyebrow-text">Panel de administración</span>
+                        </div>
+                        <h1 className="um-page-title">Gestión de Usuarios</h1>
+                    </div>
 
-                <div className="row g-4">
-                    {/* COLUMNA IZQUIERDA - LISTA Y FILTROS */}
-                    <div className="col-lg-8">
-                        {/* FILTROS */}
-                        <div className="filters-simple mb-3">
-                            <div className="row g-3">
-                                <div className="col-md-6">
-                                    <label className="form-label">Estado</label>
+                    <div className="um-page-meta">
+                        <div className="um-stat-chip">
+                            <span className="um-stat-chip-value">{usuariosActivos.length}</span>
+                            <span className="um-stat-chip-label">Activos</span>
+                        </div>
+                        <div className="um-stat-chip">
+                            <span className="um-stat-chip-value">{usuariosEliminados.length}</span>
+                            <span className="um-stat-chip-label">Eliminados</span>
+                        </div>
+                    </div>
+                </header>
+
+                {/* ── ERROR ── */}
+                {error && (
+                    <div className="um-alert-error" role="alert">
+                        <IconAlert />
+                        {error}
+                    </div>
+                )}
+
+                {/* ── GRID PRINCIPAL ── */}
+                <div className="um-grid">
+
+                    {/* COLUMNA IZQUIERDA — Filtros + Lista */}
+                    <div>
+                        <div className="um-card">
+                            {/* Cabecera lista */}
+                            <div className="um-card-header">
+                                <div>
+                                    <h2 className="um-card-title">Directorio de usuarios</h2>
+                                    <p className="um-card-subtitle">
+                                        {usuariosCombinados.length} usuario{usuariosCombinados.length !== 1 ? "s" : ""} encontrado{usuariosCombinados.length !== 1 ? "s" : ""}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Filtros */}
+                            <div className="um-filters">
+                                <div className="um-filter-group">
+                                    <label htmlFor="filtro-estado" className="um-filter-label">Estado</label>
                                     <select
-                                        className="form-select"
+                                        id="filtro-estado"
+                                        className="um-select"
                                         value={filtroEstado}
                                         onChange={(e) => setFiltroEstado(e.target.value)}
                                     >
@@ -164,32 +211,34 @@ const UserManagementPage = () => {
                                     </select>
                                 </div>
 
-                                <div className="col-md-6">
-                                    <label className="form-label">Rol</label>
+                                <div className="um-filter-group">
+                                    <label htmlFor="filtro-rol" className="um-filter-label">Rol</label>
                                     <select
-                                        className="form-select"
+                                        id="filtro-rol"
+                                        className="um-select"
                                         value={filtroRol}
                                         onChange={(e) => setFiltroRol(e.target.value)}
                                     >
-                                        <option value="todos">Todos</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="user">User</option>
+                                        <option value="todos">Todos los roles</option>
+                                        <option value="admin">Administrador</option>
+                                        <option value="user">Usuario</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
 
-                        {/* LISTA DE USUARIOS */}
-                        <ListUser
-                            users={usuariosCombinados}
-                            onDelete={handleDelete}
-                            onRestore={handleRestore}
-                            currentUserId={currentUserId}
-                        />
+                            {/* Lista */}
+                            <ListUser
+                                users={usuariosCombinados}
+                                onDelete={handleDelete}
+                                onRestore={handleRestore}
+                                onEdit={setUsuarioEditar}
+                                currentUserId={currentUserId}
+                            />
+                        </div>
                     </div>
 
-                    {/* COLUMNA DERECHA - FORMULARIO */}
-                    <div className="col-lg-4">
+                    {/* COLUMNA DERECHA — Formulario */}
+                    <div>
                         <FormUser
                             onSubmit={handleSubmitUser}
                             usuarioEditar={usuarioEditar}
@@ -199,67 +248,68 @@ const UserManagementPage = () => {
                 </div>
             </div>
 
-            {/* MODAL DE CONFIRMACIÓN */}
+            {/* ════════ MODAL CONFIRMACIÓN ════════ */}
             {modalConfirm.show && (
-                <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">
-                                    {modalConfirm.type === 'delete' ? 'Confirmar Eliminación' : 'Confirmar Restauración'}
-                                </h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    onClick={() => setModalConfirm({ show: false, type: '', userId: null })}
-                                ></button>
-                            </div>
-                            <div className="modal-body">
-                                <p>
-                                    {modalConfirm.type === 'delete'
-                                        ? '¿Estás seguro de que deseas eliminar este usuario? Esta acción se puede revertir posteriormente.'
-                                        : '¿Deseas restaurar este usuario? Volverá a estar activo en el sistema.'}
+                <div className="um-modal-overlay" role="dialog" aria-modal="true">
+                    <div className="um-modal-card">
+                        <div className={`um-modal-header um-modal-header--${modalConfirm.type}`}>
+                            <h3 className="um-modal-title">
+                                {modalConfirm.type === "delete"
+                                    ? "Confirmar eliminación"
+                                    : "Confirmar restauración"}
+                            </h3>
+                            <button className="um-modal-close" onClick={closeModal} aria-label="Cerrar">✕</button>
+                        </div>
+                        <div className="um-modal-body">
+                            <div style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+                                <div style={{
+                                    flexShrink: 0, width: 44, height: 44, borderRadius: "50%",
+                                    background: modalConfirm.type === "delete" ? "var(--um-error-pale)" : "var(--um-blue-pale)",
+                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                    color: modalConfirm.type === "delete" ? "var(--um-error)" : "var(--um-blue)"
+                                }}>
+                                    {modalConfirm.type === "delete" ? <IconTrashConfirm /> : <IconRestoreConfirm />}
+                                </div>
+                                <p style={{ margin: 0 }}>
+                                    {modalConfirm.type === "delete"
+                                        ? "¿Estás seguro de que deseas eliminar este usuario? Esta acción se puede revertir posteriormente desde el filtro de eliminados."
+                                        : "¿Deseas restaurar este usuario? Volverá a estar activo en el sistema inmediatamente."}
                                 </p>
                             </div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => setModalConfirm({ show: false, type: '', userId: null })}
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    type="button"
-                                    className={`btn ${modalConfirm.type === 'delete' ? 'btn-danger' : 'btn-primary'}`}
-                                    onClick={confirmAction}
-                                >
-                                    {modalConfirm.type === 'delete' ? 'Eliminar' : 'Restaurar'}
-                                </button>
-                            </div>
+                        </div>
+                        <div className="um-modal-footer">
+                            <button className="um-btn um-btn--ghost" onClick={closeModal}>
+                                Cancelar
+                            </button>
+                            <button
+                                className={`um-btn ${modalConfirm.type === "delete" ? "" : "um-btn--primary"}`}
+                                style={modalConfirm.type === "delete" ? {
+                                    background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                                    color: "#fff", boxShadow: "0 4px 14px rgba(220,38,38,.28)"
+                                } : {}}
+                                onClick={confirmAction}
+                            >
+                                {modalConfirm.type === "delete" ? "Sí, eliminar" : "Sí, restaurar"}
+                            </button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* TOAST DE NOTIFICACIÓN */}
+            {/* ════════ TOAST ════════ */}
             {toast.show && (
-                <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 11 }}>
-                    <div className={`toast show align-items-center text-white ${toast.type === 'success' ? 'bg-success' : 'bg-danger'} border-0`}>
-                        <div className="d-flex">
-                            <div className="toast-body">
-                                {toast.message}
-                            </div>
-                            <button
-                                type="button"
-                                className="btn-close btn-close-white me-2 m-auto"
-                                onClick={() => setToast({ show: false, message: '', type: '' })}
-                            ></button>
-                        </div>
+                <div className="um-toast-wrap" role="status" aria-live="polite">
+                    <div className={`um-toast um-toast--${toast.type}`}>
+                        <span>{toast.message}</span>
+                        <button
+                            className="um-toast-close"
+                            onClick={() => setToast({ show: false, message: "", type: "" })}
+                            aria-label="Cerrar"
+                        >✕</button>
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

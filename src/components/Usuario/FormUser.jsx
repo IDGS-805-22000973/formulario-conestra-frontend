@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/FormUser.css";
 
+const IC = {
+  User: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>,
+  Mail: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>,
+  Lock: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>,
+  Cal: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>,
+  Gender: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v4M12 18v4" /></svg>,
+  Shield: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>,
+  Eye: () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>,
+  EyeOff: () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" /><line x1="1" y1="1" x2="23" y2="23" /></svg>,
+  Save: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><polyline points="17 21 17 13 7 13 7 21" /><polyline points="7 3 7 8 15 8" /></svg>,
+  Plus: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>,
+  X: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>,
+  AlertTri: () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>,
+  Warn: () => <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>,
+};
+
 const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
@@ -9,10 +25,8 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
   const [edad, setEdad] = useState("");
   const [sexo, setSexo] = useState("M");
   const [role, setRole] = useState("user");
-
   const [mostrarPassword, setMostrarPassword] = useState(false);
   const [mostrarConfirmarPassword, setMostrarConfirmarPassword] = useState(false);
-
   const [errores, setErrores] = useState({});
   const [touched, setTouched] = useState({});
 
@@ -23,55 +37,43 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
       setEdad(usuarioEditar.edad || "");
       setSexo(usuarioEditar.sexo || "M");
       setRole(usuarioEditar.role || "user");
-      setPassword("");
-      setConfirmarPassword("");
-      setErrores({});
-      setTouched({});
+      setPassword(""); setConfirmarPassword("");
+      setErrores({}); setTouched({});
     }
   }, [usuarioEditar]);
 
-  const validarNombre = (valor) => {
-    if (!valor.trim()) return "El nombre es obligatorio";
-    if (valor.trim().length < 3) return "El nombre debe tener al menos 3 caracteres";
-    if (valor.trim().length > 50) return "El nombre no puede exceder los 50 caracteres";
+  const validarNombre = (v) => {
+    if (!v.trim()) return "El nombre es obligatorio";
+    if (v.trim().length < 3) return "Mínimo 3 caracteres";
+    if (v.trim().length > 50) return "Máximo 50 caracteres";
     return "";
   };
-
-  const validarCorreo = (valor) => {
-    if (!valor.trim()) return "El correo es obligatorio";
-    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regexCorreo.test(valor)) return "Ingresa un correo electrónico válido";
+  const validarCorreo = (v) => {
+    if (!v.trim()) return "El correo es obligatorio";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Correo inválido";
     return "";
   };
-
-  const validarPassword = (valor) => {
-    if (!usuarioEditar && !valor.trim()) return "La contraseña es obligatoria";
-    if (valor.trim() && valor.length < 6) return "La contraseña debe tener al menos 6 caracteres";
+  const validarPassword = (v) => {
+    if (!usuarioEditar && !v.trim()) return "La contraseña es obligatoria";
+    if (v.trim() && v.length < 6) return "Mínimo 6 caracteres";
     return "";
   };
-
-  const validarConfirmarPassword = (valor) => {
-    if (!usuarioEditar && !valor.trim()) return "Confirma la contraseña";
-    if (password.trim() && valor !== password) return "Las contraseñas no coinciden";
+  const validarConfirmarPassword = (v) => {
+    if (!usuarioEditar && !v.trim()) return "Confirma la contraseña";
+    if (password.trim() && v !== password) return "Las contraseñas no coinciden";
     return "";
   };
-
-  const validarEdad = (valor) => {
-    if (!valor) return "La edad es obligatoria";
-    const edadNum = Number(valor);
-    if (isNaN(edadNum)) return "La edad debe ser un número";
-    if (edadNum < 1) return "La edad debe ser mayor a 0";
-    if (edadNum > 120) return "La edad no puede ser mayor a 120 años";
+  const validarEdad = (v) => {
+    if (!v) return "La edad es obligatoria";
+    const n = Number(v);
+    if (isNaN(n) || n < 1) return "Edad inválida";
+    if (n > 120) return "Máximo 120";
     return "";
   };
-
-  const validarSexo = (valor) => {
-    if (!valor) return "Selecciona un sexo";
-    return "";
-  };
+  const validarSexo = (v) => (!v ? "Selecciona un sexo" : "");
 
   const validarFormulario = () => {
-    const nuevosErrores = {
+    const e = {
       nombre: validarNombre(nombre),
       correo: validarCorreo(correo),
       password: validarPassword(password),
@@ -79,296 +81,138 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
       edad: validarEdad(edad),
       sexo: validarSexo(sexo),
     };
-
-    Object.keys(nuevosErrores).forEach((key) => {
-      if (nuevosErrores[key] === "") delete nuevosErrores[key];
-    });
-
-    setErrores(nuevosErrores);
-    return Object.keys(nuevosErrores).length === 0;
+    Object.keys(e).forEach((k) => { if (e[k] === "") delete e[k]; });
+    setErrores(e);
+    return Object.keys(e).length === 0;
   };
 
   const handleBlur = (campo) => {
     setTouched({ ...touched, [campo]: true });
-
-    let error = "";
-    switch (campo) {
-      case "nombre":
-        error = validarNombre(nombre);
-        break;
-      case "correo":
-        error = validarCorreo(correo);
-        break;
-      case "password":
-        error = validarPassword(password);
-        break;
-      case "confirmarPassword":
-        error = validarConfirmarPassword(confirmarPassword);
-        break;
-      case "edad":
-        error = validarEdad(edad);
-        break;
-      case "sexo":
-        error = validarSexo(sexo);
-        break;
-      default:
-        return;
-    }
-
-    setErrores({ ...errores, [campo]: error });
+    const validators = {
+      nombre: () => validarNombre(nombre),
+      correo: () => validarCorreo(correo),
+      password: () => validarPassword(password),
+      confirmarPassword: () => validarConfirmarPassword(confirmarPassword),
+      edad: () => validarEdad(edad),
+      sexo: () => validarSexo(sexo),
+    };
+    if (validators[campo]) setErrores({ ...errores, [campo]: validators[campo]() });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const todosTouched = {
-      nombre: true,
-      correo: true,
-      password: true,
-      confirmarPassword: true,
-      edad: true,
-      sexo: true,
-    };
-    setTouched(todosTouched);
-
+    setTouched({ nombre: true, correo: true, password: true, confirmarPassword: true, edad: true, sexo: true });
     if (!validarFormulario()) return;
-
-    const usuarioEnviar = {
+    const payload = {
       id: usuarioEditar?.id,
       nombre: nombre.trim(),
       correo: correo.trim().toLowerCase(),
-      edad: Number(edad),
-      sexo,
-      role,
+      edad: Number(edad), sexo, role,
     };
-
-    if (password.trim()) {
-      usuarioEnviar.password = password;
-    }
-
-    onSubmit(usuarioEnviar);
-
-    setNombre("");
-    setCorreo("");
-    setPassword("");
-    setConfirmarPassword("");
-    setEdad("");
-    setSexo("M");
-    setRole("user");
-    setErrores({});
-    setTouched({});
+    if (password.trim()) payload.password = password;
+    onSubmit(payload);
+    setNombre(""); setCorreo(""); setPassword(""); setConfirmarPassword("");
+    setEdad(""); setSexo("M"); setRole("user"); setErrores({}); setTouched({});
   };
 
-  const handleCancel = () => {
-    setErrores({});
-    setTouched({});
-    onCancel();
-  };
+  const handleCancel = () => { setErrores({}); setTouched({}); onCancel(); };
+  const fc = (campo) =>
+    touched[campo] && errores[campo] ? "is-invalid"
+      : touched[campo] && !errores[campo] ? "is-valid" : "";
 
+  const Err = ({ campo }) => touched[campo] && errores[campo]
+    ? <div className="form-user-error"><IC.Warn />{errores[campo]}</div>
+    : null;
 
   return (
     <div className="form-user-container">
-      <div className="form-user-header">
+      <div className={`form-user-header ${usuarioEditar ? "form-user-header--edit" : ""}`}>
         <h5 className="form-user-title">
-          {usuarioEditar ? (
-            <>
-              <i className="bi bi-pencil-square me-2"></i>
-              Editar Usuario
-            </>
-          ) : (
-            <>
-              <i className="bi bi-person-plus-fill me-2"></i>
-              Registrar Usuario
-            </>
-          )}
+          {usuarioEditar ? <><IC.Save /> Editar usuario</> : <><IC.Plus /> Registrar usuario</>}
         </h5>
       </div>
 
       <form onSubmit={handleSubmit} noValidate className="form-user-body">
+        {/* Nombre */}
         <div className="form-user-group">
-          <label className="form-user-label">
-            <i className="bi bi-person me-2"></i>
-            Nombre <span className="text-danger">*</span>
-          </label>
-          <input
-            type="text"
-            className={`form-user-input ${touched.nombre && errores.nombre ? 'is-invalid' : touched.nombre ? 'is-valid' : ''}`}
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            onBlur={() => handleBlur('nombre')}
-            placeholder="Nombre del usuario"
-          />
-          {touched.nombre && errores.nombre && (
-            <div className="form-user-error">
-              <i className="bi bi-exclamation-circle me-1"></i>
-              {errores.nombre}
-            </div>
-          )}
+          <label className="form-user-label"><IC.User />Nombre <span style={{ color: "#ef4444" }}>*</span></label>
+          <input type="text" className={`form-user-input ${fc("nombre")}`}
+            value={nombre} onChange={(e) => setNombre(e.target.value)}
+            onBlur={() => handleBlur("nombre")} placeholder="Nombre del usuario" />
+          <Err campo="nombre" />
         </div>
 
+        {/* Correo */}
         <div className="form-user-group">
-          <label className="form-user-label">
-            <i className="bi bi-envelope me-2"></i>
-            Correo <span className="text-danger">*</span>
-          </label>
-          <input
-            type="email"
-            className={`form-user-input ${touched.correo && errores.correo ? 'is-invalid' : touched.correo ? 'is-valid' : ''}`}
-            value={correo}
-            onChange={(e) => setCorreo(e.target.value)}
-            onBlur={() => handleBlur('correo')}
-            placeholder="correo@ejemplo.com"
-          />
-          {touched.correo && errores.correo && (
-            <div className="form-user-error">
-              <i className="bi bi-exclamation-circle me-1"></i>
-              {errores.correo}
-            </div>
-          )}
+          <label className="form-user-label"><IC.Mail />Correo <span style={{ color: "#ef4444" }}>*</span></label>
+          <input type="email" className={`form-user-input ${fc("correo")}`}
+            value={correo} onChange={(e) => setCorreo(e.target.value)}
+            onBlur={() => handleBlur("correo")} placeholder="correo@ejemplo.com" />
+          <Err campo="correo" />
         </div>
 
         {/* Password */}
         <div className="form-user-group">
           <label className="form-user-label">
-            <i className="bi bi-lock me-2"></i>
-            Contraseña {usuarioEditar ? "(opcional)" : <span className="text-danger">*</span>}
+            <IC.Lock />
+            Contraseña {usuarioEditar
+              ? <span style={{ color: "#94a3b8", textTransform: "none", letterSpacing: 0, fontWeight: 400 }}>(opcional)</span>
+              : <span style={{ color: "#ef4444" }}>*</span>}
           </label>
-
           <div className="input-password-wrapper">
-            <input
-              type={mostrarPassword ? "text" : "password"}
-              className={`form-user-input ${touched.password && errores.password
-                ? "is-invalid"
-                : touched.password && !errores.password && password
-                  ? "is-valid"
-                  : ""
-                }`}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onBlur={() => handleBlur("password")}
-              placeholder="••••••••"
-            />
-
-            <button
-              type="button"
-              className="btn-toggle-password"
-              onClick={() => setMostrarPassword(!mostrarPassword)}
-            >
-              <i className={`bi ${mostrarPassword ? "bi-eye-slash" : "bi-eye"}`}></i>
+            <input type={mostrarPassword ? "text" : "password"}
+              className={`form-user-input ${touched.password && errores.password ? "is-invalid" : touched.password && !errores.password && password ? "is-valid" : ""}`}
+              value={password} onChange={(e) => setPassword(e.target.value)}
+              onBlur={() => handleBlur("password")} placeholder="••••••••" />
+            <button type="button" className="btn-toggle-password" onClick={() => setMostrarPassword(!mostrarPassword)}>
+              {mostrarPassword ? <IC.EyeOff /> : <IC.Eye />}
             </button>
           </div>
-
-          {touched.password && errores.password && (
-            <div className="form-user-error">{errores.password}</div>
-          )}
+          <Err campo="password" />
         </div>
 
-        {/* Confirmar Password */}
+        {/* Confirmar password */}
         <div className="form-user-group">
           <label className="form-user-label">
-            <i className="bi bi-lock-fill me-2"></i>
-            Confirmar contraseña {!usuarioEditar && <span className="text-danger">*</span>}
+            <IC.Lock />
+            Confirmar contraseña {!usuarioEditar && <span style={{ color: "#ef4444" }}>*</span>}
           </label>
-
           <div className="input-password-wrapper">
-            <input
-              type={mostrarConfirmarPassword ? "text" : "password"}
-              className={`form-user-input ${touched.confirmarPassword && errores.confirmarPassword
-                ? "is-invalid"
-                : touched.confirmarPassword &&
-                  !errores.confirmarPassword &&
-                  confirmarPassword
-                  ? "is-valid"
-                  : ""
-                }`}
-              value={confirmarPassword}
-              onChange={(e) => setConfirmarPassword(e.target.value)}
-              onBlur={() => handleBlur("confirmarPassword")}
-              placeholder="••••••••"
-            />
-
-            <button
-              type="button"
-              className="btn-toggle-password"
-              onClick={() =>
-                setMostrarConfirmarPassword(!mostrarConfirmarPassword)
-              }
-            >
-              <i
-                className={`bi ${mostrarConfirmarPassword ? "bi-eye-slash" : "bi-eye"
-                  }`}
-              ></i>
+            <input type={mostrarConfirmarPassword ? "text" : "password"}
+              className={`form-user-input ${touched.confirmarPassword && errores.confirmarPassword ? "is-invalid" : touched.confirmarPassword && !errores.confirmarPassword && confirmarPassword ? "is-valid" : ""}`}
+              value={confirmarPassword} onChange={(e) => setConfirmarPassword(e.target.value)}
+              onBlur={() => handleBlur("confirmarPassword")} placeholder="••••••••" />
+            <button type="button" className="btn-toggle-password" onClick={() => setMostrarConfirmarPassword(!mostrarConfirmarPassword)}>
+              {mostrarConfirmarPassword ? <IC.EyeOff /> : <IC.Eye />}
             </button>
           </div>
-
-          {touched.confirmarPassword && errores.confirmarPassword && (
-            <div className="form-user-error">
-              {errores.confirmarPassword}
-            </div>
-          )}
+          <Err campo="confirmarPassword" />
         </div>
 
-        <div className="row">
-          <div className="col-md-6">
-            <div className="form-user-group">
-              <label className="form-user-label">
-                <i className="bi bi-calendar-event me-2"></i>
-                Edad <span className="text-danger">*</span>
-              </label>
-              <input
-                type="number"
-                className={`form-user-input ${touched.edad && errores.edad ? 'is-invalid' : touched.edad ? 'is-valid' : ''}`}
-                value={edad}
-                onChange={(e) => setEdad(e.target.value)}
-                onBlur={() => handleBlur('edad')}
-                placeholder="Ej: 22"
-                min="1"
-                max="120"
-              />
-              {touched.edad && errores.edad && (
-                <div className="form-user-error">
-                  <i className="bi bi-exclamation-circle me-1"></i>
-                  {errores.edad}
-                </div>
-              )}
-            </div>
+        {/* Edad + Sexo */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".75rem" }}>
+          <div className="form-user-group" style={{ marginBottom: 0 }}>
+            <label className="form-user-label"><IC.Cal />Edad <span style={{ color: "#ef4444" }}>*</span></label>
+            <input type="number" className={`form-user-input ${fc("edad")}`}
+              value={edad} onChange={(e) => setEdad(e.target.value)}
+              onBlur={() => handleBlur("edad")} placeholder="22" min="1" max="120" />
+            <Err campo="edad" />
           </div>
-
-          <div className="col-md-6">
-            <div className="form-user-group">
-              <label className="form-user-label">
-                <i className="bi bi-gender-ambiguous me-2"></i>
-                Sexo <span className="text-danger">*</span>
-              </label>
-              <select
-                className={`form-user-select ${touched.sexo && errores.sexo ? 'is-invalid' : touched.sexo ? 'is-valid' : ''}`}
-                value={sexo}
-                onChange={(e) => setSexo(e.target.value)}
-                onBlur={() => handleBlur('sexo')}
-              >
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
-              </select>
-              {touched.sexo && errores.sexo && (
-                <div className="form-user-error">
-                  <i className="bi bi-exclamation-circle me-1"></i>
-                  {errores.sexo}
-                </div>
-              )}
-            </div>
+          <div className="form-user-group" style={{ marginBottom: 0 }}>
+            <label className="form-user-label"><IC.Gender />Sexo <span style={{ color: "#ef4444" }}>*</span></label>
+            <select className={`form-user-select ${fc("sexo")}`}
+              value={sexo} onChange={(e) => setSexo(e.target.value)} onBlur={() => handleBlur("sexo")}>
+              <option value="M">Masculino</option>
+              <option value="F">Femenino</option>
+            </select>
+            <Err campo="sexo" />
           </div>
         </div>
 
-        <div className="form-user-group">
-          <label className="form-user-label">
-            <i className="bi bi-shield-check me-2"></i>
-            Rol
-          </label>
-          <select
-            className="form-user-select"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
+        {/* Rol */}
+        <div className="form-user-group" style={{ marginTop: "1.1rem" }}>
+          <label className="form-user-label"><IC.Shield />Rol</label>
+          <select className="form-user-select" value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="user">Usuario</option>
             <option value="admin">Administrador</option>
           </select>
@@ -376,25 +220,17 @@ const FormUser = ({ onSubmit, usuarioEditar, onCancel }) => {
 
         {Object.keys(errores).length > 0 && (
           <div className="form-user-alert">
-            <i className="bi bi-exclamation-triangle-fill me-2"></i>
-            Por favor, corrige los errores antes de continuar.
+            <IC.AlertTri /> Corrige los errores antes de continuar.
           </div>
         )}
 
         <div className="form-user-actions">
           <button type="submit" className="btn-form-submit">
-            <i className={`bi ${usuarioEditar ? 'bi-check-circle' : 'bi-save'} me-2`}></i>
-            {usuarioEditar ? "Actualizar" : "Guardar"}
+            {usuarioEditar ? <><IC.Save /> Actualizar</> : <><IC.Plus /> Guardar</>}
           </button>
-
           {usuarioEditar && (
-            <button
-              type="button"
-              className="btn-form-cancel"
-              onClick={handleCancel}
-            >
-              <i className="bi bi-x-circle me-2"></i>
-              Cancelar
+            <button type="button" className="btn-form-cancel" onClick={handleCancel}>
+              <IC.X /> Cancelar
             </button>
           )}
         </div>
