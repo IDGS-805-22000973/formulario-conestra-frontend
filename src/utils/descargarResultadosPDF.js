@@ -6,7 +6,6 @@ import Logo from "../assets/Logo2.png";
 // COLORES Y CONSTANTES
 // ─────────────────────────────────────────────────────────────────────────────
 const COLOR_NAVY = [15, 33, 84];   // #0f2154
-const COLOR_BLUE = [37, 99, 235];  // #2563eb
 const COLOR_WHITE = [255, 255, 255];
 const COLOR_BLACK = [30, 41, 59];
 const COLOR_GRAY = [71, 85, 105];
