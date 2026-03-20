@@ -21,10 +21,17 @@ const getInitials = (nombre = "", correo = "") => {
 
 const ListUser = ({ users, onDelete, onRestore, onEdit, currentUserId }) => {
   const [textoBusqueda, setTextoBusqueda] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const usuariosFiltrados = useMemo(() =>
     users.filter((u) => u.nombre.toLowerCase().includes(textoBusqueda.toLowerCase()))
     , [users, textoBusqueda]);
+
+  const totalPages = Math.ceil(usuariosFiltrados.length / itemsPerPage);
+  const indexOfLastUser = currentPage * itemsPerPage;
+  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
+  const currentUsers = usuariosFiltrados.slice(indexOfFirstUser, indexOfLastUser);
 
   return (
     <div className="list-user-container">
@@ -44,7 +51,10 @@ const ListUser = ({ users, onDelete, onRestore, onEdit, currentUserId }) => {
             className="list-user-search-input"
             placeholder="Buscar por nombre…"
             value={textoBusqueda}
-            onChange={(e) => setTextoBusqueda(e.target.value)}
+            onChange={(e) => {
+              setTextoBusqueda(e.target.value);
+              setCurrentPage(1);
+            }}
           />
         </div>
       </div>
@@ -70,7 +80,7 @@ const ListUser = ({ users, onDelete, onRestore, onEdit, currentUserId }) => {
                 </tr>
               </thead>
               <tbody>
-                {usuariosFiltrados.map((u) => (
+                {currentUsers.map((u) => (
                   <tr key={u.id} className="table-user-row">
                     <td>
                       <div className="user-name-cell">
@@ -131,6 +141,31 @@ const ListUser = ({ users, onDelete, onRestore, onEdit, currentUserId }) => {
                 ))}
               </tbody>
             </table>
+
+            {/* Paginación */}
+            {totalPages > 1 && (
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem", marginTop: "1.5rem", paddingBottom: "0.5rem" }}>
+                <button
+                  className="btn-action"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                  style={{ width: "auto", padding: "0.4rem 1rem", opacity: currentPage === 1 ? 0.5 : 1, cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
+                >
+                  <span>Anterior</span>
+                </button>
+                <span style={{ fontSize: "0.85rem", color: "#475569", fontWeight: "600" }}>
+                  Página {currentPage} de {totalPages}
+                </span>
+                <button
+                  className="btn-action"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  style={{ width: "auto", padding: "0.4rem 1rem", opacity: currentPage === totalPages ? 0.5 : 1, cursor: currentPage === totalPages ? "not-allowed" : "pointer" }}
+                >
+                  <span>Siguiente</span>
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

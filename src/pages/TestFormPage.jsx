@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { submitTestService } from "../services/testService";
 import { MOSS_QUESTIONS } from "../helpers/questionsData";
@@ -28,6 +28,9 @@ const TestFormPage = () => {
     const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
     const questionsPerPage = 10;
+
+    // Referencia al inicio de la tarjeta de preguntas para hacer scroll al cambiar página
+    const topRef = useRef(null);
 
     /* ── Listeners online/offline ── */
     useEffect(() => {
@@ -62,6 +65,13 @@ const TestFormPage = () => {
             guardarProgresoTest(tipo, answers, currentPage);
         }
     }, [answers, currentPage, tipo, questions.length]);
+
+    /* ── Scroll a la primera pregunta al cambiar de página ── */
+    useEffect(() => {
+        if (topRef.current) {
+            topRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    }, [currentPage]);
 
     /* ── Toast ── */
     const showToast = (message, type = "success") => {
@@ -162,7 +172,7 @@ const TestFormPage = () => {
             </div>
 
             {/* ── TARJETA DE PREGUNTAS ── */}
-            <div className="tfp-questions-card">
+            <div className="tfp-questions-card" ref={topRef}>
                 {currentQuestions.map((q, idx) => (
                     <div key={q.id} className="tfp-question-item">
                         <span className="tfp-question-number">
