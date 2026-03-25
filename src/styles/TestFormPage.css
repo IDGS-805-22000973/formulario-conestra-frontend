@@ -438,8 +438,9 @@
 /* ── Toast ── */
 .tfp-toast-wrap {
     position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 1070;
     animation: tfpFadeIn .25s ease both;
 }
@@ -448,15 +449,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: .75rem;
-    padding: .75rem 1.1rem;
-    border-radius: 12px;
-    min-width: 260px;
-    max-width: 380px;
-    font-size: .875rem;
-    font-weight: 500;
+    gap: 1.25rem;
+    padding: 1.25rem 2rem;
+    border-radius: 16px;
+    min-width: 320px;
+    max-width: 480px;
+    font-size: 1.25rem;
+    font-weight: 600;
     color: #fff;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .3);
 }
 
 .tfp-toast--success {
@@ -475,7 +476,7 @@
     background: none;
     border: none;
     color: rgba(255, 255, 255, .8);
-    font-size: 1rem;
+    font-size: 1.5rem;
     cursor: pointer;
     line-height: 1;
     flex-shrink: 0;

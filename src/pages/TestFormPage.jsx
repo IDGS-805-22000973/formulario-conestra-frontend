@@ -97,7 +97,7 @@ const TestFormPage = () => {
             await submitTestService(tipo, answers);
             showToast("Test enviado con éxito", "success");
             limpiarProgresoTest(tipo);
-            setTimeout(() => navigate("/formularios"), 1500);
+            setTimeout(() => navigate("/formularios"), 2000);
         } catch (err) {
             showToast(err.message || "Error al enviar el test", "error");
         } finally {
